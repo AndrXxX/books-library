@@ -3,13 +3,13 @@ const cors = require('cors');
 const formData = require("express-form-data");
 
 const {Book} = require('./models');
-const stor = {
+const store = {
   books: [],
 };
 
 [1, 2, 3].map(el => {
   const newBook = new Book(`book ${el}`, `desc book ${el}`);
-  stor.books.push(newBook);
+  store.books.push(newBook);
 });
 
 const app = express();
@@ -17,18 +17,18 @@ const app = express();
 app.use(formData.parse());
 app.use(cors());
 
-app.get('/api/user/login', (req, res) => {
+app.post('/api/user/login', (req, res) => {
   res.status(201);
   res.json({ id: 1, mail: "test@mail.ru" });
 });
 
 app.get('/api/books/', (req, res) => {
-  const {books} = stor;
+  const {books} = store;
   res.json(books);
 });
 
 app.get('/api/books/:id', (req, res) => {
-  const {books} = stor;
+  const {books} = store;
   const {id} = req.params;
   const idx = books.findIndex(el => el.id === id);
 
@@ -41,10 +41,10 @@ app.get('/api/books/:id', (req, res) => {
 });
 
 app.post('/api/books/', (req, res) => {
-  const {books} = stor;
-  const {title, desc} = req.body;
+  const {books} = store;
+  const {title, description} = req.body;
 
-  const newBook = new Book(title, desc);
+  const newBook = new Book(title, description);
   books.push(newBook);
 
   res.status(201);
@@ -52,8 +52,8 @@ app.post('/api/books/', (req, res) => {
 });
 
 app.put('/api/books/:id', (req, res) => {
-  const {books} = stor;
-  const {title, desc} = req.body;
+  const {books} = store;
+  const {title, description} = req.body;
   const {id} = req.params;
   const idx = books.findIndex(el => el.id === id);
 
@@ -61,7 +61,7 @@ app.put('/api/books/:id', (req, res) => {
     books[idx] = {
       ...books[idx],
       title,
-      desc,
+      description,
     };
     res.json(books[idx]);
   } else {
@@ -71,7 +71,7 @@ app.put('/api/books/:id', (req, res) => {
 });
 
 app.delete('/api/books/:id', (req, res) => {
-  const {books} = stor;
+  const {books} = store;
   const {id} = req.params;
   const idx = books.findIndex(el => el.id === id);
 
