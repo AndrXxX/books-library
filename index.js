@@ -3,6 +3,7 @@ const cors = require('cors');
 const formData = require("express-form-data");
 
 const {Book} = require('./models');
+const bookUpdater = require('./Services/BookUpdater')();
 const store = {
   books: [],
 };
@@ -45,6 +46,7 @@ app.post('/api/books/', (req, res) => {
   const {title, description} = req.body;
 
   const newBook = new Book(title, description);
+  bookUpdater.updateByObject(newBook, req.body);
   books.push(newBook);
 
   res.status(201);
@@ -53,16 +55,11 @@ app.post('/api/books/', (req, res) => {
 
 app.put('/api/books/:id', (req, res) => {
   const {books} = store;
-  const {title, description} = req.body;
   const {id} = req.params;
   const idx = books.findIndex(el => el.id === id);
 
   if (idx !== -1) {
-    books[idx] = {
-      ...books[idx],
-      title,
-      description,
-    };
+    bookUpdater.updateByObject(books[idx], req.body);
     res.json(books[idx]);
   } else {
     res.status(404);
