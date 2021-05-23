@@ -1,0 +1,23 @@
+{
+  "name": "ndse-homeworks-express",
+  "version": "1.0.0",
+  "description": "## Блок 2: Библиотека Express.js",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndrXxX/ndse-homeworks-express.git"
+  },
+  "author": "Andrew Garetov <andrew1gar@yandex.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndrXxX/ndse-homeworks-express/issues"
+  },
+  "homepage": "https://github.com/AndrXxX/ndse-homeworks-express#readme"
+}
