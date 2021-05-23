@@ -3,7 +3,7 @@ const cors = require('cors');
 const formData = require("express-form-data");
 
 const {Book} = require('./models');
-const bookUpdater = require('./Services/BookUpdater')();
+const bookUpdater = require('./services/BookUpdater')();
 const store = {
   books: [],
 };
