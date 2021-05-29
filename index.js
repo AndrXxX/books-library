@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const bookRouter = require('./routes/books');
-const userRouter = require('./routes/user');
+const bookRouter = require('./routes/api/books');
+const userRouter = require('./routes/api/user');
 
 const errorMiddleware = require('./middleware/error404');
 

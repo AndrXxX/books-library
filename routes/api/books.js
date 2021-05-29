@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const fileMiddleware = require('../middleware/file');
-const bookExistMiddleware = require('../middleware/bookError404');
+const fileMiddleware = require('../../middleware/file');
+const bookExistMiddleware = require('../../middleware/bookError404');
 const path = require('path');
 
-const {Book} = require('../models');
-const bookUpdater = require('../services/BookUpdater')();
+const {Book} = require('../../models');
+const bookUpdater = require('../../services/BookUpdater')();
 const store = {
   books: [],
   getIdx(id) {
