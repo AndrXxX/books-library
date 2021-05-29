@@ -1,71 +1,43 @@
 POST {{host}}/api/user/login
-Content-Type: application/json;
-Cookie: {{cookie}}
+Content-Type: application/json
 
 ###
 
 GET {{host}}/api/books
-Content-Type: application/json;
-Cookie: {{cookie}}
+Content-Type: application/json
 
 ###
 
 GET {{host}}/api/books/16217749639557814460982aa85072
-Content-Type: application/json;
-Cookie: {{cookie}}
+Content-Type: application/json
 
 ###
 
 POST {{host}}/api/books
-Content-Type: multipart/form-data; boundary=body
-Cookie: {{cookie}}
+Content-Type: application/json
 
---body
-Content-Disposition: form-data; name="title"
-
-Книга
---body
-
---body
-Content-Disposition: form-data; name="description"
-
-Описание книги
---body
-
---body
-Content-Disposition: form-data; name="authors"
-
-Авторы
---body
+{
+  "title": "Книга",
+  "description": "Описание книги",
+  "authors": "Авторы"
+}
 
 ###
 
 PUT {{host}}/api/books/16217750153441702468007bf641c2
-Content-Type: multipart/form-data; boundary=body
-Cookie: {{cookie}}
+Content-Type: application/json
 
---body
-Content-Disposition: form-data; name="title"
-
-Книга
---body
-
---body
-Content-Disposition: form-data; name="description"
-
-Описание книги
---body
-
---body
-Content-Disposition: form-data; name="authors"
-
-Авторы
---body
+{
+  "body": {
+    "title": "Книга",
+    "description": "Описание книги",
+    "authors": "Авторы"
+  }
+}
 
 ###
 
 DELETE {{host}}/api/books/16217750153441702468007bf641c2
-Content-Type: application/json;
-Cookie: {{cookie}}
+Content-Type: application/json
 
 ###
