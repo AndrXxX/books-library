@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fileMiddleware = require('../middleware/file');
+const bookExistMiddleware = require('../middleware/bookError404');
 const path = require('path');
 
 const {Book} = require('../models');
@@ -54,39 +55,32 @@ router.post('/',
   }
 );
 
-router.get('/:id', (req, res) => {
-  const book = store.findBook(req.params.id);
-  if (!book) {
-    res.status(404);
-    return res.json("book | not found");
-  }
-  return res.json(book);
-});
+router.get('/:id',
+  bookExistMiddleware(store),
+  (req, res) => res.json(store.findBook(req.params.id))
+);
 
 router.put('/:id',
+  bookExistMiddleware(store),
   fileMiddleware.single('book-file'),
-    (req, res) => {
+  (req, res) => {
     const book = store.findBook(req.params.id);
-    if (!book) {
-      res.status(404);
-      return res.json("book | not found");
-    }
     bookUpdater.updateByObject(book, req.body);
     req.file && (book.fileBook = req.file.path);
     res.json(book);
   }
 );
 
-router.delete('/:id', (req, res) => {
-  if (!store.hasBook(req.params.id)) {
-    res.status(404);
-    return res.json("book | not found");
+router.delete('/:id',
+  bookExistMiddleware(store),
+  (req, res) => {
+    store.deleteBook(req.params.id);
+    return res.json("ok");
   }
-  store.deleteBook(req.params.id);
-  return res.json("ok");
-});
+);
 
 router.post('/:id/upload-file',
+  bookExistMiddleware(store),
   fileMiddleware.single('book-file'),
   (req, res) => {
     if (!req.file) {
@@ -94,30 +88,25 @@ router.post('/:id/upload-file',
       res.json("file | not uploaded");
     }
     const book = store.findBook(req.params.id);
-    if (!book) {
-      res.status(404);
-      return res.json("book | not found");
-    }
     book.fileBook = req.file.path;
     return res.json(book);
   }
 );
 
-router.get('/:id/download-file', (req, res) => {
-  const book = store.findBook(req.params.id);
-  if (!book) {
-    res.status(404);
-    return res.json("book | not found");
-  }
-  if (!book.fileBook) {
-    res.status(404);
-    return res.json("book file | not found");
-  }
-  res.download(`${__dirname}/../${book.fileBook}`, `book${path.parse(book.fileBook).ext}`, err=>{
-    if (err){
-      res.status(404).json();
+router.get('/:id/download-file',
+  bookExistMiddleware(store),
+  (req, res) => {
+    const book = store.findBook(req.params.id);
+    if (!book.fileBook) {
+      res.status(404);
+      return res.json("book file | not found");
     }
-  });
-});
+    res.download(`${__dirname}/../${book.fileBook}`, `book${path.parse(book.fileBook).ext}`, err=>{
+      if (err){
+        res.status(404).json();
+      }
+    });
+  }
+);
 
 module.exports = router;
