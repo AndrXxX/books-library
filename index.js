@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const formData = require("express-form-data");
 
 const {Book} = require('./models');
 const bookUpdater = require('./services/BookUpdater')();
@@ -15,7 +14,10 @@ const store = {
 
 const app = express();
 
-app.use(formData.parse());
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
 app.use(cors());
 
 app.post('/api/user/login', (req, res) => {
