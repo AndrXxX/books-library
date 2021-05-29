@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const fileMiddleware = require('../middleware/file');
-const bookExistMiddleware = require('../middleware/bookError404');
+const fileMiddleware = require('../../middleware/file');
+const bookExistMiddleware = require('../../middleware/bookError404');
 const path = require('path');
 
-const {Book} = require('../models');
-const bookUpdater = require('../services/BookUpdater')();
+const {Book} = require('../../models');
+const bookUpdater = require('../../services/BookUpdater')();
 const store = {
   books: [],
   getIdx(id) {
@@ -101,7 +101,7 @@ router.get('/:id/download-file',
       res.status(404);
       return res.json("book file | not found");
     }
-    res.download(`${__dirname}/../${book.fileBook}`, `book${path.parse(book.fileBook).ext}`, err=>{
+    res.download(book.fileBook, `book${path.parse(book.fileBook).ext}`, err=>{
       if (err){
         res.status(404).json();
       }
