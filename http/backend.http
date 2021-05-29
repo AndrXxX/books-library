@@ -42,7 +42,7 @@ Content-Type: application/json
 
 ###
 
-POST {{host}}/api/books/upload-file
+POST {{host}}/api/books/1622297150592702288224647224c2/upload-file
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
