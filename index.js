@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const booksRouter = require('./routes/books');
 const apiBooksRouter = require('./routes/api/books');
 const userRouter = require('./routes/api/user');
 const indexRouter = require('./routes/index');
@@ -15,6 +16,7 @@ app.use(cors());
 app.set("view engine", "ejs");
 
 app.use('/', indexRouter);
+app.use('/books', booksRouter);
 app.use('/api/books', apiBooksRouter);
 app.use('/api/user', userRouter);
 

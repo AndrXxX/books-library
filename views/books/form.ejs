@@ -1,0 +1,21 @@
+<form method="POST" class="mt-5">
+    <div class="form-group">
+        <label for="inputTitle">Название</label>
+        <input type="text" value="<%= book.title %>" name="title" class="form-control" id="inputTitle">
+    </div>
+    <div class="form-group">
+        <label for="inputDesc">Описание</label>
+        <textarea rows="3" name="desc" class="form-control" id="inputDesc"><%= book.description %></textarea>
+    </div>
+    <div class="form-group">
+        <label for="inputAuthors">Авторы</label>
+        <input type="text" value="<%= book.authors %>" name="authors" class="form-control" id="inputAuthors">
+    </div>
+    <div class="form-check">
+        <input type="checkbox" value="true" <%= book.favorite ? "checked" : "" %> name="favorite" class="form-check-input" id="inputFavorite">
+        <label for="inputFavorite" class="form-check-label">Избранное</label>
+    </div>
+    <div class="form-group text-right ">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </div>
+</form>
