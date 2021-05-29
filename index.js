@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const bookRouter = require('./routes/api/books');
+const apiBooksRouter = require('./routes/api/books');
 const userRouter = require('./routes/api/user');
 const indexRouter = require('./routes/index');
 const errorMiddleware = require('./middleware/error404');
@@ -15,7 +15,7 @@ app.use(cors());
 app.set("view engine", "ejs");
 
 app.use('/', indexRouter);
-app.use('/api/books', bookRouter);
+app.use('/api/books', apiBooksRouter);
 app.use('/api/user', userRouter);
 
 app.use(errorMiddleware);
