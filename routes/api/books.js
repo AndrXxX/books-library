@@ -8,27 +8,17 @@ const {Book} = require('../../models');
 const bookUpdater = require('../../services/BookUpdater')();
 const store = require('../../services/Store');
 
-router.get('/', (req, res) => {
-  const {books} = store;
-  res.json(books);
-});
+router.get('/', (req, res) => res.json(store.books));
 
 router.post('/',
   fileMiddleware.single('book-file'),
   (req, res) => {
-    const {books} = store;
-    const {title, description} = req.body;
-
-    const newBook = new Book(title, description);
+    const newBook = new Book();
     bookUpdater.updateByObject(newBook, req.body);
-    if (req.file) {
-      const {path} = req.file;
-      newBook.fileBook = path;
-    }
-    books.push(newBook);
+    req.file && (newBook.fileBook = req.file.path);
+    store.books.push(newBook);
 
-    res.status(201);
-    res.json(newBook);
+    res.status(201).json(newBook);
   }
 );
 
@@ -61,8 +51,7 @@ router.post('/:id/upload-file',
   fileMiddleware.single('book-file'),
   (req, res) => {
     if (!req.file) {
-      res.status(400);
-      res.json("file | not uploaded");
+      return res.status(400).json("file | not uploaded");
     }
     const book = store.findBook(req.params.id);
     book.fileBook = req.file.path;
@@ -75,13 +64,10 @@ router.get('/:id/download-file',
   (req, res) => {
     const book = store.findBook(req.params.id);
     if (!book.fileBook) {
-      res.status(404);
-      return res.json("book file | not found");
+      return res.status(404).json("book file | not found");
     }
-    res.download(book.fileBook, `book${path.parse(book.fileBook).ext}`, err=>{
-      if (err){
-        res.status(404).json();
-      }
+    res.download(book.fileBook, `book${path.parse(book.fileBook).ext}`, err => {
+      err && res.status(404).json();
     });
   }
 );
