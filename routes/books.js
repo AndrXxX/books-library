@@ -28,7 +28,7 @@ router.post('/create',
 
 router.get('/create', (req, res) => {
   res.render("books/create", {
-    title: "Книги | добавить",
+    title: "Книги | создание",
     book: {},
   });
 });
@@ -80,7 +80,7 @@ router.get('/:id',
   bookExistMiddleware(store),
   (req, res) => {
     res.render("books/view", {
-      title: "Книги | просмотр",
+      title: "Книги | информация",
       book: store.findBook(req.params.id),
     });
   }
