@@ -3,6 +3,7 @@ const cors = require('cors');
 const bookRouter = require('./routes/api/books');
 const userRouter = require('./routes/api/user');
 
+const loggerMiddleware = require('./middleware/logger');
 const errorMiddleware = require('./middleware/error404');
 
 const app = express();
@@ -12,6 +13,8 @@ app.use(express.urlencoded({
   extended: true
 }));
 app.use(cors());
+app.use(loggerMiddleware);
+app.use('/public', express.static(__dirname+"/public"));
 
 app.use('/api/books', bookRouter);
 app.use('/api/user', userRouter);

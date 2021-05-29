@@ -3,3 +3,4 @@
 /public/books/
 .env
 package-lock.json
+server.log
