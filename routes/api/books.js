@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fileMiddleware = require('../../middleware/file');
-const bookExistMiddleware = require('../../middleware/bookError404');
+const bookExistMiddleware = require('../../middleware/api/bookError404');
 const path = require('path');
 
 const {Book} = require('../../models');
