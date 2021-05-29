@@ -53,3 +53,8 @@ Content-Type: text/plain
 --WebAppBoundary--
 
 ###
+
+GET {{host}}/api/books/1622297150592702288224647224c2/download-file
+Content-Type: application/json
+
+###
