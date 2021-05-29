@@ -1,17 +1,20 @@
+const TEXT_FIELDS = [
+  'title',
+  'description',
+  'authors',
+];
+
 class BookUpdater {
   updateByObject(book, obj) {
     if (!book || !obj) {
-      return false;
+      return;
     }
-
-    for (const key in book) {
-      if (key === "id") {
-        continue;
-      }
+    for (const key in TEXT_FIELDS) {
       if (book.hasOwnProperty(key) && obj[key]) {
         book[key] = obj[key];
       }
     }
+    book.favorite = obj.favorite;
   }
 }
 
