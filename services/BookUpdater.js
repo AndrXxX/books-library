@@ -9,11 +9,9 @@ class BookUpdater {
     if (!book || !obj) {
       return;
     }
-    for (const key in TEXT_FIELDS) {
-      if (book.hasOwnProperty(key)) {
-        book[key] = obj[key] ? obj[key] : "";
-      }
-    }
+    TEXT_FIELDS.forEach((name) => {
+      book[name] = obj[name] ? obj[name] : "";
+    })
     book.favorite = obj.favorite;
   }
 }
