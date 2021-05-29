@@ -28,11 +28,9 @@ PUT {{host}}/api/books/16217750153441702468007bf641c2
 Content-Type: application/json
 
 {
-  "body": {
-    "title": "Книга",
-    "description": "Описание книги",
-    "authors": "Авторы"
-  }
+  "title": "Книга",
+  "description": "Описание книги",
+  "authors": "Авторы"
 }
 
 ###
