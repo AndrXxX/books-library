@@ -41,3 +41,15 @@ DELETE {{host}}/api/books/16217750153441702468007bf641c2
 Content-Type: application/json
 
 ###
+
+POST {{host}}/api/books/upload-file
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="book-file"; filename="example.txt"
+Content-Type: text/plain
+
+< files/example.txt
+--WebAppBoundary--
+
+###
