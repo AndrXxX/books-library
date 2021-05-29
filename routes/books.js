@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const fileMiddleware = require('../middleware/file');
+const path = require('path');
 
 const {Book} = require('../models');
 const bookUpdater = require('../services/BookUpdater')();
@@ -101,5 +102,22 @@ router.post('/:id/upload-file',
     return res.json(book);
   }
 );
+
+router.get('/:id/download-file', (req, res) => {
+  const book = store.findBook(req.params.id);
+  if (!book) {
+    res.status(404);
+    return res.json("book | not found");
+  }
+  if (!book.fileBook) {
+    res.status(404);
+    return res.json("book file | not found");
+  }
+  res.download(`${__dirname}/../${book.fileBook}`, `book${path.parse(book.fileBook).ext}`, err=>{
+    if (err){
+      res.status(404).json();
+    }
+  });
+});
 
 module.exports = router;
