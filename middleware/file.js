@@ -1,4 +1,5 @@
 const multer = require('multer');
+const MAX_FILE_SIZE = 10*1024*1024;
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -17,11 +18,13 @@ const allowedTypes = [
 ];
 
 const fileFilter = (req, file, cb) => {
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true)
-  } else {
-    cb(null, false)
+  if (!allowedTypes.includes(file.mimetype)) {
+    return cb(null, false);
   }
+  if (file.size > MAX_FILE_SIZE) {
+    return cb(null, false);
+  }
+  return cb(null, true);
 };
 
 module.exports = multer({
