@@ -1,16 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-
-const {Book} = require('./models');
-const bookUpdater = require('./services/BookUpdater')();
-const store = {
-  books: [],
-};
-
-[1, 2, 3].map(el => {
-  const newBook = new Book(`book ${el}`, `desc book ${el}`);
-  store.books.push(newBook);
-});
+const bookRouter = require('./routes/books');
+const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -20,68 +11,8 @@ app.use(express.urlencoded({
 }));
 app.use(cors());
 
-app.post('/api/user/login', (req, res) => {
-  res.status(201);
-  res.json({ id: 1, mail: "test@mail.ru" });
-});
-
-app.get('/api/books/', (req, res) => {
-  const {books} = store;
-  res.json(books);
-});
-
-app.get('/api/books/:id', (req, res) => {
-  const {books} = store;
-  const {id} = req.params;
-  const idx = books.findIndex(el => el.id === id);
-
-  if (idx !== -1) {
-    res.json(books[idx]);
-  } else {
-    res.status(404);
-    res.json("book | not found");
-  }
-});
-
-app.post('/api/books/', (req, res) => {
-  const {books} = store;
-  const {title, description} = req.body;
-
-  const newBook = new Book(title, description);
-  bookUpdater.updateByObject(newBook, req.body);
-  books.push(newBook);
-
-  res.status(201);
-  res.json(newBook);
-});
-
-app.put('/api/books/:id', (req, res) => {
-  const {books} = store;
-  const {id} = req.params;
-  const idx = books.findIndex(el => el.id === id);
-
-  if (idx !== -1) {
-    bookUpdater.updateByObject(books[idx], req.body);
-    res.json(books[idx]);
-  } else {
-    res.status(404);
-    res.json("book | not found");
-  }
-});
-
-app.delete('/api/books/:id', (req, res) => {
-  const {books} = store;
-  const {id} = req.params;
-  const idx = books.findIndex(el => el.id === id);
-
-  if (idx !== -1) {
-    books.splice(idx, 1);
-    res.json("ok");
-  } else {
-    res.status(404);
-    res.json("book | not found");
-  }
-});
+app.use('/api/books', bookRouter);
+app.use('/api/user', userRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
