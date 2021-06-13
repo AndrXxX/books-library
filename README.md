@@ -2,8 +2,8 @@
 
 ## Блок 2: Библиотека Express.js
 
-Домашнее задание к занятию «2.3 EJS»
+Домашнее задание к занятию «2.5 Docker, контейнеризация приложения»
 
-ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/master/008-ejs).
+ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/master/009-docker-2).
 
 Приложение на Heroku доступно по [ссылке](https://andrxxx-nodejs-express.herokuapp.com/).
