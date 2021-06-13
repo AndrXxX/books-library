@@ -2,12 +2,8 @@
 
 ## Блок 2: Библиотека Express.js
 
-Домашнее задание к занятию «2.2 Middleware».
+Домашнее задание к занятию «2.3 EJS»
 
-ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/master/007-middleware).
+ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/master/008-ejs).
 
-Для установки зависимостей необходимо выполнить `npm install`.
-
-Для тестирования запросов при наличии среды JetBrains можно использовать `http/backend.http`
-
-В качестве книг поддерживается загрузка файлов: `*.pdf`, `*.doc`, `*.txt`, `*.fb2`.
+Приложение на Heroku доступно по [ссылке](https://andrxxx-nodejs-express.herokuapp.com/).
