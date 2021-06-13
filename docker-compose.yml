@@ -1,0 +1,24 @@
+version: "2"
+services:
+  ndse_counter:
+    build: ./ndse-counter
+    volumes:
+      - ./ndse-counter/app:/app
+    expose:
+      - 3001
+    ports:
+      - 3001:3001
+    environment:
+      - PORT=3001
+
+  ndse_library:
+    build: ./ndse-library
+    volumes:
+      - ./ndse-library/app:/app
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+      - COUNTER_URL=ndse_counter
