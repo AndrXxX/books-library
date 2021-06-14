@@ -6,4 +6,8 @@
 
 ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/master/009-docker-2).
 
-Приложение на Heroku доступно по [ссылке](https://andrxxx-nodejs-express.herokuapp.com/).
+Запуск: `docker-compose up -d`.
+
+Счетчик отображается при просмотре книги: 
+
+![img.png](resources/counter.png)
