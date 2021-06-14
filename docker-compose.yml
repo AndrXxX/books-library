@@ -2,8 +2,6 @@ version: "3.7"
 services:
   ndse_counter:
     build: ./ndse-counter
-    volumes:
-      - ./ndse-counter/app:/app
     expose:
       - 80
     ports:
@@ -13,8 +11,6 @@ services:
 
   ndse_library:
     build: ./ndse-library
-    volumes:
-      - ./ndse-library/app:/app
     expose:
       - 3000
     ports:
