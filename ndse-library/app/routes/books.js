@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 const fileMiddleware = require('../middleware/file');
 const bookExistMiddleware = require('../middleware/bookError404');
+const countersFactory = require('../Utils/CountersAccessor');
 const path = require('path');
+const counter = countersFactory.getAccessor(process.env.COUNTER_URL);
+
+console.log(process.env.COUNTER_URL);
 
 const {Book} = require('../models');
 const bookUpdater = require('../services/BookUpdater')();
@@ -78,10 +82,12 @@ router.get('/:id/download-file',
 
 router.get('/:id',
   bookExistMiddleware(store),
-  (req, res) => {
+  async (req, res) => {
+    await counter.incr(req.params.id);
     res.render("books/view", {
       title: "Книги | информация",
       book: store.findBook(req.params.id),
+      count: await counter.get(req.params.id),
     });
   }
 );

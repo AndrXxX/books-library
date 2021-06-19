@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  ndse_counter:
+    build: ./ndse-counter
+    expose:
+      - 80
+    ports:
+      - 80:80
+    environment:
+      - PORT=80
+
+  ndse_library:
+    build: ./ndse-library
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+      - COUNTER_URL=ndse_counter
+    links:
+      - ndse_counter
