@@ -1,5 +1,27 @@
 version: "3.7"
 services:
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - 27017
+    environment:
+      - MONGO_INITDB_DATABASE=${DB_NAME:-books_database}
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USERNAME:-root}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD:-password}
+
+  mongo_express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_USERNAME=${DB_USERNAME:-root}
+      - ME_CONFIG_MONGODB_PASSWORD=${DB_PASSWORD:-password}
+    depends_on:
+      - mongodb
+
   ndse_counter:
     build: ./ndse-counter
     expose:
@@ -18,5 +40,9 @@ services:
     environment:
       - PORT=3000
       - COUNTER_URL=ndse_counter
+      - DB_URL=mongodb://${DB_USERNAME:-root}:${DB_PASSWORD:-password}@${DB_HOST:-localhost:27017}/${DB_NAME:-books_database}
+    depends_on:
+      - mongodb
+      - ndse_counter
     links:
       - ndse_counter
