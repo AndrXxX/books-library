@@ -5,43 +5,50 @@ const bookExistMiddleware = require('../../middleware/api/bookError404');
 const path = require('path');
 
 const {Book} = require('../../models');
-const bookUpdater = require('../../services/BookUpdater')();
 const store = require('../../services/Store');
 
-router.get('/', (req, res) => res.json(store.books));
+router.get('/',
+  async (req, res) => {
+    res.json(await Book.find());
+  }
+);
 
 router.post('/',
   fileMiddleware.single('book-file'),
-  (req, res) => {
-    const newBook = new Book();
-    bookUpdater.updateByObject(newBook, req.body);
-    req.file && (newBook.fileBook = req.file.path);
-    store.books.push(newBook);
-
+  async (req, res) => {
+    const {title, description, authors, favorite} = req.body;
+    const newBook = await store.createBook({
+      title, description, authors, favorite,
+      fileBook: req.file ? req.file.path : "",
+    });
     res.status(201).json(newBook);
   }
 );
 
 router.get('/:id',
   bookExistMiddleware(store),
-  (req, res) => res.json(store.findBook(req.params.id))
+  async (req, res) => {
+    res.json(await store.findBook(req.params.id))
+  }
 );
 
 router.put('/:id',
   bookExistMiddleware(store),
   fileMiddleware.single('book-file'),
-  (req, res) => {
-    const book = store.findBook(req.params.id);
-    bookUpdater.updateByObject(book, req.body);
-    req.file && (book.fileBook = req.file.path);
+  async (req, res) => {
+    const {title, description, authors, favorite} = req.body;
+    const book = await store.updateBook(req.params.id, {
+      title, description, authors, favorite,
+      fileBook: req.file ? req.file.path : "",
+    });
     res.json(book);
   }
 );
 
 router.delete('/:id',
   bookExistMiddleware(store),
-  (req, res) => {
-    store.deleteBook(req.params.id);
+  async (req, res) => {
+    await store.deleteBook(req.params.id);
     return res.json("ok");
   }
 );
@@ -49,20 +56,21 @@ router.delete('/:id',
 router.post('/:id/upload-file',
   bookExistMiddleware(store),
   fileMiddleware.single('book-file'),
-  (req, res) => {
+  async (req, res) => {
     if (!req.file) {
       return res.status(400).json("file | not uploaded");
     }
-    const book = store.findBook(req.params.id);
-    book.fileBook = req.file.path;
-    return res.json(book);
+    const book = await store.updateBook(req.params.id, {
+      fileBook: req.file.path,
+    });
+    res.json(book);
   }
 );
 
 router.get('/:id/download-file',
   bookExistMiddleware(store),
-  (req, res) => {
-    const book = store.findBook(req.params.id);
+  async (req, res) => {
+    const book = await store.findBook(req.params.id);
     if (!book.fileBook) {
       return res.status(404).json("book file | not found");
     }

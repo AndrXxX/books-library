@@ -1,28 +1,44 @@
 const {Book} = require('../models');
 
 const store = {
-  books: [],
-  getIdx(id) {
-    return this.books.findIndex(el => el.id === id);
+  async hasBook(id) {
+    return null !== await this.findBook(id);
   },
-  hasBook(id) {
-    return this.getIdx(id) !== -1;
+  async findBook(id) {
+    try {
+      return await Book.findById(id);
+    } catch (e) {
+      console.error(e);
+      return null
+    }
   },
-  findBook(id) {
-    return this.hasBook(id) ? this.books[this.getIdx(id)] : null;
-  },
-  deleteBook(id) {
-    if (!this.hasBook(id)) {
+  async deleteBook(id) {
+    try {
+      await Book.findByIdAndDelete(id);
+      return true;
+    } catch (e) {
+      console.error(e);
       return false;
     }
-    this.books.splice(this.getIdx(id), 1);
-    return true;
+  },
+  async updateBook(id, params) {
+    try {
+      await Book.findByIdAndUpdate(id, params);
+      return true;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
+  },
+  async createBook(params) {
+    const book = new Book(params);
+    try {
+      await book.save();
+    } catch (e) {
+      console.error(e);
+    }
+    return book;
   },
 };
-
-[1, 2, 3].map(el => {
-  const newBook = new Book({title: `book ${el}`, description:`desc book ${el}`});
-  store.books.push(newBook);
-});
 
 module.exports = store;
