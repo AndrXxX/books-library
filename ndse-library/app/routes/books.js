@@ -5,14 +5,12 @@ const bookExistMiddleware = require('../middleware/bookError404');
 const countersFactory = require('../Utils/CountersAccessor');
 const path = require('path');
 const counter = countersFactory.getAccessor(process.env.COUNTER_URL);
-
-const {Book} = require('../models');
 const store = require('../services/Store');
 
 router.get('/', async (req, res) => {
   res.render("books/index", {
     title: "Книги",
-    books: await Book.find(),
+    books: await store.findAll(),
   });
 });
 

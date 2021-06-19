@@ -1,15 +1,23 @@
 const {Book} = require('../models');
 
 const store = {
+  async findAll() {
+    try {
+      return await Book.find().select('-__v');
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  },
   async hasBook(id) {
     return null !== await this.findBook(id);
   },
   async findBook(id) {
     try {
-      return await Book.findById(id);
+      return await Book.findById(id).select('-__v');
     } catch (e) {
       console.error(e);
-      return null
+      return null;
     }
   },
   async deleteBook(id) {
@@ -23,7 +31,7 @@ const store = {
   },
   async updateBook(id, params) {
     try {
-      await Book.findByIdAndUpdate(id, params);
+      await Book.findByIdAndUpdate(id, params).select('-__v');
       return true;
     } catch (e) {
       console.error(e);
@@ -37,7 +45,7 @@ const store = {
     } catch (e) {
       console.error(e);
     }
-    return book;
+    return this.findBook(book.id);
   },
 };
 

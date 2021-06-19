@@ -3,13 +3,11 @@ const router = express.Router();
 const fileMiddleware = require('../../middleware/file');
 const bookExistMiddleware = require('../../middleware/api/bookError404');
 const path = require('path');
-
-const {Book} = require('../../models');
 const store = require('../../services/Store');
 
 router.get('/',
   async (req, res) => {
-    res.json(await Book.find());
+    res.json(await store.findAll());
   }
 );
 
