@@ -6,4 +6,8 @@
 
 ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/v2/011-mongo).
 
-Запуск: `docker-compose up -d`.
+
+Запуск: 
+1) Поместить в `./config/.local.env` настройки (пример файла: `.local.env.example`).
+2) Запустить: `docker-compose --env-file ./config/.local.env up -d --build`
+3) Приложение будет доступно по адресу `http://localhost:3000/`
