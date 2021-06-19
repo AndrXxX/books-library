@@ -45,7 +45,7 @@ const store = {
     } catch (e) {
       console.error(e);
     }
-    return this.findBook(book.id);
+    return await this.findBook(book.id);
   },
 };
 
