@@ -21,7 +21,7 @@ const store = {
 };
 
 [1, 2, 3].map(el => {
-  const newBook = new Book(`book ${el}`, `desc book ${el}`);
+  const newBook = new Book({title: `book ${el}`, description:`desc book ${el}`});
   store.books.push(newBook);
 });
 
