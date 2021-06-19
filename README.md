@@ -2,12 +2,8 @@
 
 ## Блок 2: Библиотека Express.js
 
-Домашнее задание к занятию «2.5 Docker, контейнеризация приложения»
+Домашнее задание к занятию «2.7 Подключение MongoDB в Node.js приложение»
 
-ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/master/009-docker-2).
+ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/v2/011-mongo).
 
 Запуск: `docker-compose up -d`.
-
-Счетчик отображается при просмотре книги: 
-
-![img.png](resources/counter.png)
