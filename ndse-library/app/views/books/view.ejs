@@ -25,15 +25,15 @@
                     </div>
                     <% if (book.fileCover) { %>
                         <div class="col-sm-4 text-right">
-                            <img class="card-img-top" src="<%= book.fileCover %>" alt="Обложка книги">
+                            <img class="card-img-top" src="/books/<%= book.id %>/download-cover" alt="Обложка книги">
                         </div>
                     <% } %>
                 </div>
             </div>
             <div class="card-footer bg-transparent">
                 <div class="float-right m-1"><%= count %></div>
-                <% if (book.file) { %>
-                    <a class="btn btn-sm btn-primary" href="<%= book.file %>">
+                <% if (book.fileName) { %>
+                    <a class="btn btn-sm btn-primary" href="/books/<%= book.id %>/download-file">
                         <i class="fa fa-cloud-download" aria-hidden="true"></i>
                     </a>
                 <% } %>
