@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fileMiddleware = require('../../middleware/file');
 const bookExistMiddleware = require('../../middleware/api/bookError404');
+const authMiddleware = require('../../middleware/auth');
 const path = require('path');
 const store = require('../../services/Store');
 
@@ -12,6 +13,7 @@ router.get('/',
 );
 
 router.post('/',
+  authMiddleware,
   fileMiddleware.single('book-file'),
   async (req, res) => {
     const {title, description, authors, favorite} = req.body;
@@ -24,6 +26,7 @@ router.post('/',
 );
 
 router.get('/:id',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     res.json(await store.findBook(req.params.id))
@@ -31,6 +34,7 @@ router.get('/:id',
 );
 
 router.put('/:id',
+  authMiddleware,
   bookExistMiddleware(store),
   fileMiddleware.single('book-file'),
   async (req, res) => {
@@ -44,6 +48,7 @@ router.put('/:id',
 );
 
 router.delete('/:id',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     await store.deleteBook(req.params.id);
@@ -52,6 +57,7 @@ router.delete('/:id',
 );
 
 router.post('/:id/upload-file',
+  authMiddleware,
   bookExistMiddleware(store),
   fileMiddleware.single('book-file'),
   async (req, res) => {
@@ -66,6 +72,7 @@ router.post('/:id/upload-file',
 );
 
 router.get('/:id/download-file',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     const book = await store.findBook(req.params.id);
