@@ -83,13 +83,10 @@ router.get('/:id/download-file',
   async (req, res) => {
     const book = await store.findBook(req.params.id);
     if (!book.fileName) {
-      res.status(404);
-      return res.json("book file | not found");
+      return res.status(404).json("book file | not found");
     }
-    res.download(book.fileName, `${book.authors}-${book.title}${path.parse(book.fileName).ext}`, err=>{
-      if (err){
-        res.status(404).json();
-      }
+    res.download(book.fileName, `${book.authors}-${book.title}${path.parse(book.fileName).ext}`, err => {
+      if (err) res.status(404).json();
     });
   }
 );
@@ -100,8 +97,7 @@ router.get('/:id/download-cover',
   async (req, res) => {
     const book = await store.findBook(req.params.id);
     if (!book.fileCover) {
-      res.status(404);
-      return res.json("book file | not found");
+      return res.status(404).json("book file | not found");
     }
     res.download(book.fileCover, `${book.authors}-${book.title}-cover${path.parse(book.fileCover).ext}`, err => {
       if (err) res.status(404);
