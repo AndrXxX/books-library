@@ -1,9 +1,10 @@
 <%- include("../partials/layout-start", {title: title}) %>
 <div class="m-5 d-flex justify-content-center">
     <form method="POST" class="p-3 border border-primary">
+        <% if (error) { %><div class="alert alert-danger" role="alert"><%= error %></div><% } %>
         <div class="form-group">
             <label for="login">Логин</label>
-            <input type="text" class="form-control" id="login" name="username" placeholder="Введите логин">
+            <input type="text" class="form-control" id="login" name="username" value="<%= user.username %>" placeholder="Введите логин">
         </div>
         <div class="form-group">
             <label for="password">Пароль</label>
