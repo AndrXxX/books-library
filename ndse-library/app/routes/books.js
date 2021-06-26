@@ -17,13 +17,16 @@ router.get('/', async (req, res) => {
 
 router.post('/create',
   authMiddleware,
-  fileMiddleware.single('book-file'),
+  fileMiddleware.fields([
+    {name: 'fileBook', maxCount: 1},
+    {name: 'fileCover', maxCount: 1}
+  ]),
   async (req, res) => {
     const {title, description, authors, favorite} = req.body;
-    await store.createBook({
-      title, description, authors, favorite,
-      fileBook: req.file ? req.file.path : "",
-    });
+    const params = {title, description, authors, favorite};
+    req.files.fileBook && (params.fileName = req.files.fileBook[0].path);
+    req.files.fileCover && (params.fileCover = req.files.fileCover[0].path);
+    await store.createBook(req.params.id, params);
     res.redirect('/books')
   }
 );
@@ -52,12 +55,16 @@ router.get('/:id/update',
 router.post('/:id/update',
   authMiddleware,
   bookExistMiddleware(store),
+  fileMiddleware.fields([
+    {name: 'fileBook', maxCount: 1},
+    {name: 'fileCover', maxCount: 1}
+  ]),
   async (req, res) => {
     const {title, description, authors, favorite} = req.body;
-    await store.updateBook(req.params.id, {
-      title, description, authors, favorite,
-      fileBook: req.file ? req.file.path : "",
-    });
+    const params = {title, description, authors, favorite};
+    req.files.fileBook && (params.fileName = req.files.fileBook[0].path);
+    req.files.fileCover && (params.fileCover = req.files.fileCover[0].path);
+    await store.updateBook(req.params.id, params);
     res.redirect(`/books/${req.params.id}`);
 });
 
