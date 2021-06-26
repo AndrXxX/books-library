@@ -26,7 +26,7 @@ router.post('/create',
     const params = {title, description, authors, favorite};
     req.files.fileBook && (params.fileName = req.files.fileBook[0].path);
     req.files.fileCover && (params.fileCover = req.files.fileCover[0].path);
-    await store.createBook(req.params.id, params);
+    await store.createBook(params);
     res.redirect('/books')
   }
 );
