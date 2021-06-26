@@ -6,6 +6,7 @@ const countersFactory = require('../Utils/CountersAccessor');
 const path = require('path');
 const counter = countersFactory.getAccessor(process.env.COUNTER_URL);
 const store = require('../services/Store');
+const authMiddleware = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
   res.render("books/index", {
@@ -15,6 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/create',
+  authMiddleware,
   fileMiddleware.single('book-file'),
   async (req, res) => {
     const {title, description, authors, favorite} = req.body;
@@ -26,14 +28,18 @@ router.post('/create',
   }
 );
 
-router.get('/create', (req, res) => {
-  res.render("books/create", {
-    title: "Книги | создание",
-    book: {},
-  });
-});
+router.get('/create',
+  authMiddleware,
+  (req, res) => {
+    res.render("books/create", {
+      title: "Книги | создание",
+      book: {},
+    });
+  }
+);
 
 router.get('/:id/update',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     res.render("books/update", {
@@ -44,6 +50,7 @@ router.get('/:id/update',
 );
 
 router.post('/:id/update',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     const {title, description, authors, favorite} = req.body;
@@ -55,6 +62,7 @@ router.post('/:id/update',
 });
 
 router.post('/:id/delete',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     await store.deleteBook(req.params.id);
@@ -63,6 +71,7 @@ router.post('/:id/delete',
 );
 
 router.get('/:id/download-file',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     const book = await store.findBook(req.params.id);
@@ -79,6 +88,7 @@ router.get('/:id/download-file',
 );
 
 router.get('/:id',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     await counter.incr(req.params.id);
