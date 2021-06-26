@@ -66,10 +66,10 @@ router.get('/logout',
   },
 );
 
-router.get('/profile',
+router.get('/me',
   authMiddleware,
   function (req, res) {
-    res.render('profile', { user: req.user })
+    res.render('user/profile', { title: "Профиль", user: req.user })
   })
 
 module.exports = router;
