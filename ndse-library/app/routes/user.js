@@ -53,15 +53,6 @@ router.get('/logout',
 
 router.get('/profile',
   authMiddleware,
-  function (req, res, next) {
-    if (!req.isAuthenticated || !req.isAuthenticated()) {
-      if (req.session) {
-        req.session.returnTo = req.originalUrl || req.url
-      }
-      return res.redirect('/login')
-    }
-    next()
-  },
   function (req, res) {
     res.render('profile', { user: req.user })
   })
