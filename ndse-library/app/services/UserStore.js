@@ -1,4 +1,5 @@
 const {User} = require('../models');
+const generator = require('./HashGenerator');
 
 const store = {
   async findById(id, cb) {
@@ -28,16 +29,13 @@ const store = {
   async create(params, cb) {
     const user = new User(params);
     try {
+      user.password = generator.generate(user.password);
       await user.save();
       cb(null, user);
     } catch (e) {
       cb(e, user);
     }
   },
-  verifyPassword(user, password) {
-    // todo: use hash
-    return user.password === password;
-  }
 };
 
 module.exports = store;
