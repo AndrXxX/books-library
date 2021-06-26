@@ -8,15 +8,30 @@ router.get('/login',
 function (req, res) {
     res.render('user/login', {
       title: "Авторизация",
-    })
+      user: {},
+      error: false,
+    });
   },
 );
 
 router.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/user/login',
-  }),
+  (req, res, next) => {
+    passport.authenticate('local', function (err, user) {
+      if (err || !user) {
+        return res.render('user/login', {
+          title: "Авторизация",
+          user: req.body,
+          error: "Неверное имя пользователя или пароль",
+        });
+      }
+      req.logIn(user, function (err) {
+        if (err) {
+          return next(err);
+        }
+        return res.redirect('/');
+      });
+    })(req, res, next);
+  },
 );
 
 router.get('/signup',
@@ -36,7 +51,7 @@ router.post('/signup',
   function (req, res) {
     res.render('user/signup', {
       title: "Регистрация",
-      user: req.body.user | {},
+      user: req.body.user || {},
       error: req.error,
       info: req.info,
     });
