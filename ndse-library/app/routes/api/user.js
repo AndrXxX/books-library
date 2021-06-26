@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const registerMiddleware = require('../../middleware/register');
+const signupMiddleware = require('../../middleware/signup');
 
 router.post('/login',
   passport.authenticate('local'),
@@ -14,7 +14,7 @@ router.post('/login',
 );
 
 router.post('/signup',
-  registerMiddleware,
+  signupMiddleware,
   function (req, res) {
     return res.status(201).json({
       error: req.error,

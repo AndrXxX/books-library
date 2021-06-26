@@ -1,7 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const registerMiddleware = require('../middleware/register');
+const signupMiddleware = require('../middleware/signup');
 const authMiddleware = require('../middleware/auth');
 
 router.get('/login',
@@ -19,10 +19,10 @@ router.post('/login',
   }),
 );
 
-router.get('/register',
+router.get('/signup',
   function (req, res) {
     if (req.user) res.redirect('/');
-    res.render('user/register', {
+    res.render('user/signup', {
       title: "Регистрация",
       user: {},
       error: false,
@@ -31,10 +31,10 @@ router.get('/register',
   },
 );
 
-router.post('/register',
-  registerMiddleware,
+router.post('/signup',
+  signupMiddleware,
   function (req, res) {
-    res.render('user/register', {
+    res.render('user/signup', {
       title: "Регистрация",
       user: req.body.user | {},
       error: req.error,
