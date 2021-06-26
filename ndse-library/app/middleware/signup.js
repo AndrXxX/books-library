@@ -10,8 +10,9 @@ module.exports = async function (req, res, next) {
     await userStore.create(req.body.user, function (err, user) {
       if (err) {
         req.error = err.message;
+      } else {
+        req.info = "Пользователь зарегистрирован";
       }
-      req.info = "Пользователь зарегистрирован";
       req.user = user;
       return next();
     });
