@@ -47,7 +47,6 @@ class CountersAccessor {
 
 const getAccessor = (bookId) => {
   const path = getPath(bookId);
-  console.log(path);
   if (!createFile(path)) {
     console.error(`Не удалось получить доступ к файлу ${path}`);
     process.exit(-1);
