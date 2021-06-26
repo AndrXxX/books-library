@@ -43,6 +43,7 @@ services:
       - PORT=3000
       - COUNTER_URL=ndse_counter
       - DB_URL=mongodb://${DB_USERNAME:-root}:${DB_PASSWORD:-password}@mongodb:27017/
+      - COOKIE_SECRET=${COOKIE_SECRET:-COOKIE_SECRET}
     depends_on:
       - mongodb
       - ndse_counter
