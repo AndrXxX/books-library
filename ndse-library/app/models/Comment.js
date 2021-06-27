@@ -9,6 +9,10 @@ const commentSchema = new Schema({
     type: String,
     required: true,
   },
+  refTypeId: {
+    type: String,
+    required: true,
+  },
   username: {
     type: String,
     required: true,
@@ -16,7 +20,7 @@ const commentSchema = new Schema({
   date: {
     type: Date,
     default: new Date(),
-  }
+  },
 });
 
 module.exports = model('Comment', commentSchema);

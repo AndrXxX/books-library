@@ -1,14 +1,14 @@
 const commentStore = require('../services/CommentStore');
 
-const onLoadBookDiscussion = (socket) => {
-  commentStore.find(5, (err, comments) => {
+const onLoadBookDiscussion = (socket, bookId) => {
+  commentStore.find(5, { refTypeId: bookId }, (err, comments) => {
     comments && socket.emit('load-book-discussion', comments);
   })
 }
 
 const onBookDiscussion = (socket) => {
   const {bookId} = socket.handshake.query;
-  onLoadBookDiscussion(socket);
+  onLoadBookDiscussion(socket, bookId);
 
   console.log(`Socket bookId: ${bookId}`);
   socket.join(bookId);

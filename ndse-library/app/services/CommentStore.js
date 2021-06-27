@@ -1,9 +1,9 @@
 const { Comment } = require('../models');
 
 const store = {
-  async find(limit, cb) {
+  async find(limit, params, cb) {
     try {
-      cb(null, await Comment.find().sort({ 'date': -1, '_id': -1 }).limit(limit).select('-__v'));
+      cb(null, await Comment.find(params).sort({ 'date': -1, '_id': -1 }).limit(limit).select('-__v'));
     } catch (e) {
       cb(e, null);
     }
