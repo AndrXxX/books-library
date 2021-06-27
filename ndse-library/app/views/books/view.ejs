@@ -48,6 +48,56 @@
             </div>
         </div>
     </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <h5 class="card-header">Комментарии</h5>
+            <div class="card-body">
+                <div id="list" class="list-group">
+                    <!-- TODO: вывести существующие комментарии-->
+                </div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="input-group mb-3">
+                    <textarea placeholder="Сообщение" class="form-control" id="text" aria-label="Сообщение" aria-describedby="basic-addon2"></textarea>
+                    <div class="input-group-append">
+                        <button id="send-comment" class="btn btn-outline-secondary" type="button">Отправить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+  const socket = io.connect('/', {query: `bookId=<%= book.id %>`});
+  const boxList = document.querySelector('#list');
+  const inputText = document.querySelector('#text');
+  const send = document.querySelector('#send-comment');
+
+  const getTmp = (msg) => {
+    return `
+                <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <small>${msg.username}</small>
+                        <small class="text-muted">${msg.type}</small>
+                    </div>
+                    <p class="mb-1">${msg.text}</p>
+                </div>
+        `;
+  };
+
+  socket.on('book-discussion', (msg) => {
+    const div = getTmp(msg);
+    boxList.insertAdjacentHTML('beforeend', div);
+  });
+
+  send.addEventListener('click', () => {
+    socket.emit('book-discussion', {
+      username: "User XxX", // TODO
+      text: inputText.value,
+    });
+  });
+
+</script>
 
 <%- include("../partials/layout-end") %>
