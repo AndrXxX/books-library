@@ -114,6 +114,7 @@ router.get('/:id',
       title: "Книги | информация",
       book: await store.findBook(req.params.id),
       count: await counter.get(req.params.id),
+      username: req.user.username,
     });
   }
 );
