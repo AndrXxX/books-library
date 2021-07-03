@@ -1,11 +1,12 @@
-const express = require('express');
+import express, { Request } from 'express'
+import passport from 'passport'
+import { User } from "../../models/User";
+import signupMiddleware from '../../middleware/signup'
 const router = express.Router();
-const passport = require('passport');
-const signupMiddleware = require('../../middleware/signup');
 
 router.post('/login',
   passport.authenticate('local'),
-  function (req, res) {
+  function (req: Request & { user: User }, res) {
     if (!req.user) {
       return res.status(401).json({ error: "Неверное имя пользователя или пароль"});
     }
@@ -15,7 +16,7 @@ router.post('/login',
 
 router.post('/signup',
   signupMiddleware,
-  function (req, res) {
+  function (req: Request & { error: string, info: string }, res) {
     return res.status(201).json({
       error: req.error,
       info: req.info,
@@ -31,4 +32,4 @@ router.get('/logout',
   },
 );
 
-module.exports = router;
+export default router;

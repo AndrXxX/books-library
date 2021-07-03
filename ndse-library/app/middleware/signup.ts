@@ -1,6 +1,6 @@
-const userStore = require('../services/UserStore');
+import userStore from '../services/UserStore';
 
-module.exports = async function (req, res, next) {
+export default async function (req, res, next) {
   await userStore.findByUsername(req.body.user.username, async function (err, user) {
     if (user) {
       req.error = `Пользователь с логином ${user.username} уже зарегистрирован`;

@@ -1,8 +1,8 @@
-const express = require('express');
-const passport = require('passport');
+import express, { Request } from 'express'
+import passport from 'passport'
+import authMiddleware from '../middleware/auth'
+import signupMiddleware from '../middleware/signup'
 const router = express.Router();
-const signupMiddleware = require('../middleware/signup');
-const authMiddleware = require('../middleware/auth');
 
 router.get('/login',
 function (req, res) {
@@ -48,7 +48,7 @@ router.get('/signup',
 
 router.post('/signup',
   signupMiddleware,
-  function (req, res) {
+  function (req: Request & { error: string, info: string }, res) {
     res.render('user/signup', {
       title: "Регистрация",
       user: req.body.user || {},
@@ -72,4 +72,4 @@ router.get('/me',
     res.render('user/profile', { title: "Профиль", user: req.user })
   })
 
-module.exports = router;
+export default router;

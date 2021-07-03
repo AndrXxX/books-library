@@ -1,4 +1,4 @@
-module.exports = (store) => {
+export default (store) => {
   return async (req, res, next) => {
     if (!await store.hasBook(req.params.id)) {
       return res.status(404).redirect('/404');

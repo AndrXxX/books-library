@@ -1,4 +1,4 @@
-const {Book} = require('../models');
+import Book from '../models/Book';
 
 const store = {
   async findAll() {
@@ -49,4 +49,4 @@ const store = {
   },
 };
 
-module.exports = store;
+export default store;

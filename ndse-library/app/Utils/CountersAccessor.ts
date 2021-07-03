@@ -14,6 +14,7 @@ async function getResult(url, method) {
 }
 
 class CountersAccessor {
+  url: string
   constructor(serviceUrl) {
     this.url = serviceUrl;
   }
@@ -25,6 +26,6 @@ class CountersAccessor {
   }
 }
 
-module.exports = {
+export default {
   getAccessor: serviceUrl => new CountersAccessor(serviceUrl),
 };

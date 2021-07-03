@@ -1,4 +1,12 @@
-const { Schema, model } = require('mongoose');
+import { Document, Schema, model } from 'mongoose';
+
+type Comment = {
+  text: string;
+  type: string;
+  refTypeId: string;
+  username: string;
+  date: Date;
+}
 
 const commentSchema = new Schema({
   text: {
@@ -23,4 +31,4 @@ const commentSchema = new Schema({
   },
 });
 
-module.exports = model('Comment', commentSchema);
+export default model<Comment & Document>('Comment', commentSchema);

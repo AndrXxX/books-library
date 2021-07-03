@@ -1,4 +1,4 @@
-const multer = require('multer');
+import multer from 'multer';
 const MAX_FILE_SIZE = 10*1024*1024;
 
 const storage = multer.diskStorage({
@@ -35,6 +35,6 @@ const fileFilter = (req, file, cb) => {
   return cb(null, true);
 };
 
-module.exports = multer({
+export default multer({
   storage, fileFilter
 });

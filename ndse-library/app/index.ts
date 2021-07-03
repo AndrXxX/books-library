@@ -1,21 +1,21 @@
-const express = require('express');
-const passport = require('passport')
-const expressSession = require('express-session')
-const cors = require('cors');
-const mongoose = require('mongoose');
-const auth = require('./boot/auth');
-const bootSocket = require('./boot/socket');
-const socketIO = require('socket.io');
+import express from 'express';
+import passport from 'passport';
+import expressSession from 'express-session';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import auth from './boot/auth';
+import bootSocket from './boot/socket';
+import { Server } from "socket.io";
 
-const booksRouter = require('./routes/books');
-const userRouter = require('./routes/user');
-const apiBooksRouter = require('./routes/api/books');
-const apiUserRouter = require('./routes/api/user');
-const indexRouter = require('./routes/index');
+import booksRouter from './routes/books';
+import userRouter from './routes/user';
+import apiBooksRouter from './routes/api/books';
+import apiUserRouter from './routes/api/user';
+import indexRouter from './routes/index';
 
-const loggerMiddleware = require('./middleware/logger');
-const authMiddleware = require('./middleware/auth');
-const errorMiddleware = require('./middleware/error404');
+import loggerMiddleware from './middleware/logger';
+import authMiddleware from './middleware/auth';
+import errorMiddleware from './middleware/error404';
 
 const app = express();
 auth();
@@ -54,10 +54,9 @@ try {
   mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 } catch (e) {
   console.log(e);
-  return;
 }
 
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 })
-bootSocket(socketIO(server));
+bootSocket(new Server(server));

@@ -1,5 +1,5 @@
-const {User} = require('../models');
-const generator = require('./HashGenerator');
+import User from '../models/User';
+import generator from '../services/HashGenerator';
 
 const store = {
   async findById(id, cb) {
@@ -38,4 +38,4 @@ const store = {
   },
 };
 
-module.exports = store;
+export default store;

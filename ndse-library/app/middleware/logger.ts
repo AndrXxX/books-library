@@ -1,7 +1,7 @@
 const fs = require('fs');
 const os = require('os');
 
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
   let now = new Date();
   let hour = now.getHours();
   let minutes = now.getMinutes();

@@ -1,10 +1,10 @@
-const express = require('express');
+import express, { Request } from 'express'
+import fileMiddleware from '../../middleware/file'
+import bookExistMiddleware from '../../middleware/api/bookError404'
+import authMiddleware from '../../middleware/auth'
+import path from 'path'
+import store from '../../services/Store'
 const router = express.Router();
-const fileMiddleware = require('../../middleware/file');
-const bookExistMiddleware = require('../../middleware/api/bookError404');
-const authMiddleware = require('../../middleware/auth');
-const path = require('path');
-const store = require('../../services/Store');
 
 router.get('/',
   async (req, res) => {
@@ -15,7 +15,7 @@ router.get('/',
 router.post('/',
   authMiddleware,
   fileMiddleware.single('book-file'),
-  async (req, res) => {
+  async (req: Request & { file: any }, res) => {
     const {title, description, authors, favorite} = req.body;
     const newBook = await store.createBook({
       title, description, authors, favorite,
@@ -37,7 +37,7 @@ router.put('/:id',
   authMiddleware,
   bookExistMiddleware(store),
   fileMiddleware.single('book-file'),
-  async (req, res) => {
+  async (req: Request & { file: any }, res) => {
     const {title, description, authors, favorite} = req.body;
     const book = await store.updateBook(req.params.id, {
       title, description, authors, favorite,
@@ -60,7 +60,7 @@ router.post('/:id/upload-file',
   authMiddleware,
   bookExistMiddleware(store),
   fileMiddleware.single('book-file'),
-  async (req, res) => {
+  async (req: Request & { file: any }, res) => {
     if (!req.file) {
       return res.status(400).json("file | not uploaded");
     }
@@ -76,13 +76,13 @@ router.get('/:id/download-file',
   bookExistMiddleware(store),
   async (req, res) => {
     const book = await store.findBook(req.params.id);
-    if (!book.fileBook) {
+    if (!book.fileName) {
       return res.status(404).json("book file | not found");
     }
-    res.download(book.fileBook, `book${path.parse(book.fileBook).ext}`, err => {
+    res.download(book.fileName, `book${path.parse(book.fileName).ext}`, err => {
       err && res.status(404).json();
     });
   }
 );
 
-module.exports = router;
+export default router;

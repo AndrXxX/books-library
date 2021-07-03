@@ -1,7 +1,7 @@
-const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
-const userStore = require('../services/UserStore');
-const checker = require('../services/HashGenerator');
+import passport from 'passport';
+import passportLocal from 'passport-local';
+import userStore from '../services/UserStore';
+import checker from '../services/HashGenerator';
 
 /**
  * @param {String} username
@@ -24,9 +24,9 @@ const options = {
   passReqToCallback: false,
 }
 
-module.exports = function() {
-  passport.use('local', new LocalStrategy(options, verify))
-  passport.serializeUser(function (user, cb) {
+export default () => {
+  passport.use('local', new passportLocal.Strategy(options, verify))
+  passport.serializeUser(function (user: { id: string }, cb) {
     cb(null, user.id);
   })
 

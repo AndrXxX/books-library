@@ -1,12 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const fileMiddleware = require('../middleware/file');
-const bookExistMiddleware = require('../middleware/bookError404');
-const countersFactory = require('../Utils/CountersAccessor');
-const path = require('path');
+import express, { Request } from 'express'
+import fileMiddleware from '../middleware/file'
+import bookExistMiddleware from '../middleware/bookError404'
+import authMiddleware from '../middleware/auth'
+import countersFactory from '../Utils/CountersAccessor'
+import path from 'path'
+import store from '../services/Store'
 const counter = countersFactory.getAccessor(process.env.COUNTER_URL);
-const store = require('../services/Store');
-const authMiddleware = require('../middleware/auth');
+const router = express.Router();
 
 router.get('/', async (req, res) => {
   res.render("books/index", {
@@ -21,9 +21,9 @@ router.post('/create',
     {name: 'fileBook', maxCount: 1},
     {name: 'fileCover', maxCount: 1}
   ]),
-  async (req, res) => {
+  async (req: Request & { files: any }, res) => {
     const {title, description, authors, favorite} = req.body;
-    const params = {title, description, authors, favorite};
+    const params: { [propertyName: string]: string } = {title, description, authors, favorite};
     req.files.fileBook && (params.fileName = req.files.fileBook[0].path);
     req.files.fileCover && (params.fileCover = req.files.fileCover[0].path);
     await store.createBook(params);
@@ -59,9 +59,9 @@ router.post('/:id/update',
     {name: 'fileBook', maxCount: 1},
     {name: 'fileCover', maxCount: 1}
   ]),
-  async (req, res) => {
+  async (req: Request & { files: any }, res) => {
     const {title, description, authors, favorite} = req.body;
-    const params = {title, description, authors, favorite};
+    const params: { [propertyName: string]: string } = {title, description, authors, favorite};
     req.files.fileBook && (params.fileName = req.files.fileBook[0].path);
     req.files.fileCover && (params.fileCover = req.files.fileCover[0].path);
     await store.updateBook(req.params.id, params);
@@ -108,7 +108,7 @@ router.get('/:id/download-cover',
 router.get('/:id',
   authMiddleware,
   bookExistMiddleware(store),
-  async (req, res) => {
+  async (req: Request & { user: any }, res) => {
     await counter.incr(req.params.id);
     res.render("books/view", {
       title: "Книги | информация",
@@ -119,4 +119,4 @@ router.get('/:id',
   }
 );
 
-module.exports = router;
+export default router;

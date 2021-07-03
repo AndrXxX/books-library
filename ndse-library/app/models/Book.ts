@@ -1,4 +1,13 @@
-const {Schema, model} = require('mongoose');
+import { Document, Schema, model } from 'mongoose';
+
+export type Book = {
+  title: string;
+  description?: string;
+  authors?: string;
+  favorite?: string;
+  fileCover?: string;
+  fileName?: string;
+}
 
 const bookSchema = new Schema({
   title: {
@@ -27,4 +36,4 @@ const bookSchema = new Schema({
   },
 });
 
-module.exports = model('Book', bookSchema);
+export default model<Book & Document>('Book', bookSchema);

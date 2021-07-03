@@ -1,4 +1,4 @@
-const commentStore = require('../services/CommentStore');
+import commentStore from '../services/CommentStore';
 
 const onLoadBookDiscussion = (socket, bookId) => {
   commentStore.find(5, { refTypeId: bookId }, (err, comments) => {
@@ -26,7 +26,7 @@ const onDisconnect = (socket, id) => {
   });
 }
 
-module.exports = (io) => {
+export default (io) => {
   io.on('connection', (socket) => {
     const {id} = socket;
     console.log(`Socket connected: ${id}`);

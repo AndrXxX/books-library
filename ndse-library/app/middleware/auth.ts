@@ -1,4 +1,4 @@
-module.exports = function (req, res, next) {
+export default function (req, res, next) {
   if (!req.isAuthenticated || !req.isAuthenticated()) {
     if (req.session) {
       req.session.returnTo = req.originalUrl || req.url

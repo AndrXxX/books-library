@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
 const generator = {
@@ -11,4 +11,4 @@ const generator = {
   }
 };
 
-module.exports = generator;
+export default generator;

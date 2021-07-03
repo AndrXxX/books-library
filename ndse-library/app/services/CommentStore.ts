@@ -1,4 +1,4 @@
-const { Comment } = require('../models');
+import Comment from '../models/Comment';
 
 const store = {
   async find(limit, params, cb) {
@@ -19,4 +19,4 @@ const store = {
   },
 };
 
-module.exports = store;
+export default store;
