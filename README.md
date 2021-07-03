@@ -2,9 +2,9 @@
 
 ## Блок 2: Библиотека Express.js
 
-Домашнее задание к занятию «2.8 Аутентификация. PassportJS»
+Домашнее задание к занятию «2.9 Протокол websocket. Библиотека socket.io»
 
-ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/v2/012-auth).
+ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/v2/013-websocket).
 
 
 Запуск: 

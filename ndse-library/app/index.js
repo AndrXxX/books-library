@@ -4,6 +4,8 @@ const expressSession = require('express-session')
 const cors = require('cors');
 const mongoose = require('mongoose');
 const auth = require('./boot/auth');
+const bootSocket = require('./boot/socket');
+const socketIO = require('socket.io');
 
 const booksRouter = require('./routes/books');
 const userRouter = require('./routes/user');
@@ -47,15 +49,15 @@ app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.DB_URL || 'mongodb://localhost:27017/mydb';
-async function start() {
-  try {
-    await mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    })
-  } catch (e) {
-    console.log(e);
-  }
+
+try {
+  mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+} catch (e) {
+  console.log(e);
+  return;
 }
 
-start();
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+})
+bootSocket(socketIO(server));

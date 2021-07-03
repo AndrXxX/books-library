@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="card-footer bg-transparent">
-                <div class="float-right m-1"><%= count %></div>
+                <div class="float-right m-1"><i class="fa fa-eye" aria-hidden="true"></i> <%= count %></div>
                 <% if (book.fileName) { %>
                     <a class="btn btn-sm btn-primary" href="/books/<%= book.id %>/download-file">
                         <i class="fa fa-cloud-download" aria-hidden="true"></i>
@@ -48,6 +48,66 @@
             </div>
         </div>
     </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <h5 class="card-header">Комментарии</h5>
+            <div class="card-body">
+                <div id="list" class="list-group"><span id="no-comments">Комментариев нет</span></div>
+            </div>
+            <div class="card-footer bg-transparent">
+                <div class="input-group mb-3">
+                    <textarea placeholder="Сообщение" class="form-control" id="text" aria-label="Сообщение" aria-describedby="basic-addon2"></textarea>
+                    <div class="input-group-append">
+                        <button id="send-comment" class="btn btn-outline-secondary" type="button">Отправить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+  const socket = io.connect('/', {query: `bookId=<%= book.id %>`});
+  const boxList = document.querySelector('#list');
+  const inputText = document.querySelector('#text');
+  const noCommentsHint = document.querySelector('#no-comments');
+  const send = document.querySelector('#send-comment');
+
+  const getTmp = (msg) => {
+    return `
+                <div class="list-group-item list-group-item-action d-flex flex-column align-items-end">
+                    <p class="mb-1 align-self-start">${msg.text}</p>
+                    <div class="w-75 d-flex flex-column align-items-end">
+                        <small>${msg.username}</small>
+                        <small class="text-muted">${(new Date(msg.date)).toLocaleString()}</small>
+                    </div>
+                </div>
+        `;
+  };
+
+  socket.on('load-book-discussion', (messages) => {
+    messages.forEach(message => {
+      const div = getTmp(message);
+      boxList.insertAdjacentHTML('afterbegin', div);
+      noCommentsHint.classList.add('d-none');
+    })
+  })
+
+  socket.on('book-discussion', (msg) => {
+    const div = getTmp(msg);
+    boxList.insertAdjacentHTML('beforeend', div);
+    noCommentsHint.classList.add('d-none');
+  });
+
+  send.addEventListener('click', () => {
+    socket.emit('book-discussion', {
+      username: '<%= username %>',
+      text: inputText.value,
+      type: "bookComments",
+      refTypeId: "<%= book.id %>",
+    });
+  });
+
+</script>
 
 <%- include("../partials/layout-end") %>
