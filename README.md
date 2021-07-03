@@ -2,9 +2,9 @@
 
 ## Блок 2: Библиотека Express.js
 
-Домашнее задание к занятию «2.7 Подключение MongoDB в Node.js приложение»
+Домашнее задание к занятию «2.8 Аутентификация. PassportJS»
 
-ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/v2/011-mongo).
+ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/v2/012-auth).
 
 
 Запуск: 

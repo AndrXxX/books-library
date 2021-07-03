@@ -6,6 +6,7 @@ const countersFactory = require('../Utils/CountersAccessor');
 const path = require('path');
 const counter = countersFactory.getAccessor(process.env.COUNTER_URL);
 const store = require('../services/Store');
+const authMiddleware = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
   res.render("books/index", {
@@ -15,25 +16,33 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/create',
-  fileMiddleware.single('book-file'),
+  authMiddleware,
+  fileMiddleware.fields([
+    {name: 'fileBook', maxCount: 1},
+    {name: 'fileCover', maxCount: 1}
+  ]),
   async (req, res) => {
     const {title, description, authors, favorite} = req.body;
-    await store.createBook({
-      title, description, authors, favorite,
-      fileBook: req.file ? req.file.path : "",
-    });
+    const params = {title, description, authors, favorite};
+    req.files.fileBook && (params.fileName = req.files.fileBook[0].path);
+    req.files.fileCover && (params.fileCover = req.files.fileCover[0].path);
+    await store.createBook(params);
     res.redirect('/books')
   }
 );
 
-router.get('/create', (req, res) => {
-  res.render("books/create", {
-    title: "Книги | создание",
-    book: {},
-  });
-});
+router.get('/create',
+  authMiddleware,
+  (req, res) => {
+    res.render("books/create", {
+      title: "Книги | создание",
+      book: {},
+    });
+  }
+);
 
 router.get('/:id/update',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     res.render("books/update", {
@@ -44,17 +53,23 @@ router.get('/:id/update',
 );
 
 router.post('/:id/update',
+  authMiddleware,
   bookExistMiddleware(store),
+  fileMiddleware.fields([
+    {name: 'fileBook', maxCount: 1},
+    {name: 'fileCover', maxCount: 1}
+  ]),
   async (req, res) => {
     const {title, description, authors, favorite} = req.body;
-    await store.updateBook(req.params.id, {
-      title, description, authors, favorite,
-      fileBook: req.file ? req.file.path : "",
-    });
+    const params = {title, description, authors, favorite};
+    req.files.fileBook && (params.fileName = req.files.fileBook[0].path);
+    req.files.fileCover && (params.fileCover = req.files.fileCover[0].path);
+    await store.updateBook(req.params.id, params);
     res.redirect(`/books/${req.params.id}`);
 });
 
 router.post('/:id/delete',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     await store.deleteBook(req.params.id);
@@ -63,22 +78,35 @@ router.post('/:id/delete',
 );
 
 router.get('/:id/download-file',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     const book = await store.findBook(req.params.id);
-    if (!book.fileBook) {
-      res.status(404);
-      return res.json("book file | not found");
+    if (!book.fileName) {
+      return res.status(404).json("book file | not found");
     }
-    res.download(book.fileBook, `book${path.parse(book.fileBook).ext}`, err=>{
-      if (err){
-        res.status(404).json();
-      }
+    res.download(book.fileName, `${book.authors}-${book.title}${path.parse(book.fileName).ext}`, err => {
+      if (err) res.status(404).json();
+    });
+  }
+);
+
+router.get('/:id/download-cover',
+  authMiddleware,
+  bookExistMiddleware(store),
+  async (req, res) => {
+    const book = await store.findBook(req.params.id);
+    if (!book.fileCover) {
+      return res.status(404).json("book file | not found");
+    }
+    res.download(book.fileCover, `${book.authors}-${book.title}-cover${path.parse(book.fileCover).ext}`, err => {
+      if (err) res.status(404);
     });
   }
 );
 
 router.get('/:id',
+  authMiddleware,
   bookExistMiddleware(store),
   async (req, res) => {
     await counter.incr(req.params.id);
