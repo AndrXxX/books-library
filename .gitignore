@@ -1,2 +1,4 @@
 /.idea/
 /help/
+/db/
+/config/.local.env
