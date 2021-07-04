@@ -1,8 +1,8 @@
 import { Server, Socket } from "socket.io";
-import commentStore from '../services/CommentsRepository';
+import { commentsRepository } from '../services/CommentsRepository';
 
 const onLoadBookDiscussion = async (socket: Socket, bookId: string) => {
-  const comments = await commentStore.getComments(5, { refTypeId: bookId});
+  const comments = await commentsRepository.getComments(5, { refTypeId: bookId});
   comments && socket.emit('load-book-discussion', comments);
 }
 
@@ -13,7 +13,7 @@ const onBookDiscussion = async (socket: Socket) => {
   console.log(`Socket bookId: ${bookId}`);
   socket.join(bookId);
   socket.on('book-discussion', async (msg) => {
-    const comment = await commentStore.create(msg);
+    const comment = await commentsRepository.create(msg);
     if (comment) {
       socket.to(bookId).emit('book-discussion', comment);
       socket.emit('book-discussion', comment);
@@ -28,11 +28,11 @@ const onDisconnect = (socket: Socket, id: string) => {
 }
 
 export default (io: Server) => {
-  io.on('connection', (socket) => {
+  io.on('connection', async (socket) => {
     const {id} = socket;
     console.log(`Socket connected: ${id}`);
 
-    onBookDiscussion(socket);
+    await onBookDiscussion(socket);
     onDisconnect(socket, id);
   });
 };
