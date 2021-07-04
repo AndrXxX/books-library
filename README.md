@@ -1,10 +1,10 @@
-# Домашние задания по курсу «NDSE - Настройка окружения Node.js и библиотека Express.js
+# Домашние задания по курсу «NDTNF - TypeScript, Nest.js, Firebase»
 
-## Блок 2: Библиотека Express.js
+## Блок 1: TypeScript
 
-Домашнее задание к занятию «2.9 Протокол websocket. Библиотека socket.io»
+Домашнее задание к занятию «1.2 Система типов TypeScript. ООП. SOLID»
 
-ТЗ доступно по [ссылке](https://github.com/netology-code/ndse-homeworks/tree/v2/013-websocket).
+ТЗ доступно по [ссылке](https://github.com/netology-code/ndtnf-homeworks/blob/master/002-TypeScript).
 
 
 Запуск: 
