@@ -1,13 +1,14 @@
-const fs = require('fs');
-const os = require('os');
+import { NextFunction, Request, Response } from "express";
+import fs from "fs";
+import os from "os";
 
-export default (req, res, next) => {
+export default (req: Request, res: Response, next: NextFunction) => {
   let now = new Date();
   let hour = now.getHours();
   let minutes = now.getMinutes();
   let seconds = now.getSeconds();
 
-  const {method, url} = req;
+  const { method, url } = req;
   const userAgent = req.get("user-agent");
 
   let data = `${hour}:${minutes}:${seconds} ${method}: ${url} user-agent: ${userAgent}`;
