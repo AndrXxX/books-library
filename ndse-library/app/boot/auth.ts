@@ -1,37 +1,36 @@
+import { User } from "../models/User";
 import passport from 'passport';
-import passportLocal from 'passport-local';
+import passportLocal, { IStrategyOptions, IVerifyOptions, VerifyFunction } from 'passport-local';
 import userStore from '../services/UserStore';
 import checker from '../services/HashGenerator';
 
-/**
- * @param {String} username
- * @param {String} password
- * @param {Function} done
- */
-async function verify(username, password, done) {
-  await userStore.findByUsername(username, function (err, user) {
+type doneVerify = (error: any, user?: any, options?: IVerifyOptions) => void;
+
+const verify: VerifyFunction = async (username: string, password: string, done: doneVerify) => {
+  await userStore.findByUsername(username, function (err: Error, user: User) {
     if (err) return done(err);
     if (!user || !checker.isValid(password, user.password)) {
-      return done(null, false);
+      return done(null);
     }
     return done(null, user)
   });
 }
 
-const options = {
+const options: IStrategyOptions = {
   usernameField: 'username',
   passwordField: 'password',
+  session: false,
   passReqToCallback: false,
 }
 
 export default () => {
   passport.use('local', new passportLocal.Strategy(options, verify))
-  passport.serializeUser(function (user: { id: string }, cb) {
-    cb(null, user.id);
+  passport.serializeUser((user: User | {}, cb) => {
+    cb(null, (user as User).id);
   })
 
-  passport.deserializeUser(async function (id, cb) {
-    await userStore.findById(id, function (err, user) {
+  passport.deserializeUser(async (id: string, cb: (err: Error, user?: User) => void) => {
+    await userStore.findById(id, (err: Error, user: User) => {
       if (err) return cb(err);
       cb(null, user);
     })
