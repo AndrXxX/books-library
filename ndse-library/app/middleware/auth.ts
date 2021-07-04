@@ -1,8 +1,7 @@
-export default function (req, res, next) {
+import { NextFunction, Request, Response } from "express";
+
+export default function (req: Request, res: Response, next: NextFunction) {
   if (!req.isAuthenticated || !req.isAuthenticated()) {
-    if (req.session) {
-      req.session.returnTo = req.originalUrl || req.url
-    }
     return res.redirect('/user/login')
   }
   next()
