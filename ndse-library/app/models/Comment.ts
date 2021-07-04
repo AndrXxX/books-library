@@ -1,6 +1,6 @@
 import { Document, Schema, model } from 'mongoose';
 
-interface Comment {
+export interface Comment {
   text: string;
   type: string;
   refTypeId: string;
@@ -31,4 +31,4 @@ const commentSchema = new Schema({
   },
 });
 
-export default model<Comment & Document>('Comment', commentSchema);
+export const CommentModel = model<Comment & Document>('Comment', commentSchema);
