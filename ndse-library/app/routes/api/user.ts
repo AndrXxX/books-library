@@ -1,22 +1,23 @@
-import express, { Request } from 'express'
+import express, { Request, Response } from 'express'
 import passport from 'passport'
 import { User } from "../../models/User";
-import signupMiddleware from '../../middleware/signup'
+import signupMiddleware, { ResultRequest } from '../../middleware/signup'
 const router = express.Router();
 
 router.post('/login',
   passport.authenticate('local'),
-  function (req: Request & { user: User }, res) {
-    if (!req.user) {
+  function (req: Request & Express.Request, res: Response) {
+  const user = req.user as User;
+    if (!user) {
       return res.status(401).json({ error: "Неверное имя пользователя или пароль"});
     }
-    return res.status(201).json({ id: req.user.id, mail: req.user.email });
+    return res.status(201).json({ id: user.id, mail: user.email });
   },
 );
 
 router.post('/signup',
   signupMiddleware,
-  function (req: Request & { error: string, info: string }, res) {
+  (req: Request & ResultRequest, res: Response) => {
     return res.status(201).json({
       error: req.error,
       info: req.info,
@@ -26,7 +27,7 @@ router.post('/signup',
 );
 
 router.get('/logout',
-  function (req, res) {
+  function (req: Request, res: Response) {
     req.logout()
     return res.status(201).json("ok");
   },
