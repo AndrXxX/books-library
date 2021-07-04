@@ -8,6 +8,7 @@ import { booksRepository } from '../../services/BooksRepository'
 const router = express.Router();
 
 router.get('/',
+  authMiddleware,
   async (req, res) => {
     res.json(await booksRepository.getBooks());
   }

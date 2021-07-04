@@ -10,12 +10,15 @@ import { booksRepository } from '../services/BooksRepository'
 const counter = countersFactory.getAccessor(process.env.COUNTER_URL);
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  res.render("books/index", {
-    title: "Книги",
-    books: await booksRepository.getBooks(),
-  });
-});
+router.get('/',
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    res.render("books/index", {
+      title: "Книги",
+      books: await booksRepository.getBooks(),
+    });
+  },
+);
 
 router.post('/create',
   authMiddleware,
