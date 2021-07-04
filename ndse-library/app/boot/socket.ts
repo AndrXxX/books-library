@@ -1,24 +1,23 @@
-import { Comment } from "../models/Comment";
 import { Server, Socket } from "socket.io";
-import commentStore from '../services/CommentStore';
+import commentStore from '../services/CommentsRepository';
 
-const onLoadBookDiscussion = (socket: Socket, bookId: string) => {
-  commentStore.find(5, { refTypeId: bookId }, (err: Error, comments: Comment[]) => {
-    comments && socket.emit('load-book-discussion', comments);
-  })
+const onLoadBookDiscussion = async (socket: Socket, bookId: string) => {
+  const comments = await commentStore.getComments(5, { refTypeId: bookId});
+  comments && socket.emit('load-book-discussion', comments);
 }
 
-const onBookDiscussion = (socket: Socket) => {
+const onBookDiscussion = async (socket: Socket) => {
   const {bookId} = socket.handshake.query;
-  onLoadBookDiscussion(socket, bookId as string);
+  await onLoadBookDiscussion(socket, bookId as string);
 
   console.log(`Socket bookId: ${bookId}`);
   socket.join(bookId);
-  socket.on('book-discussion', (msg) => {
-    commentStore.create(msg, (err, comment) => {
-      comment && socket.to(bookId).emit('book-discussion', comment);
-      comment && socket.emit('book-discussion', comment);
-    });
+  socket.on('book-discussion', async (msg) => {
+    const comment = await commentStore.create(msg);
+    if (comment) {
+      socket.to(bookId).emit('book-discussion', comment);
+      socket.emit('book-discussion', comment);
+    }
   });
 }
 
