@@ -1,13 +1,13 @@
 import { User } from "../models/User";
 import passport from 'passport';
 import passportLocal, { IStrategyOptions, IVerifyOptions, VerifyFunction } from 'passport-local';
-import userStore from '../services/UsersRepository';
+import { usersRepository } from '../services/UsersRepository';
 import checker from '../services/HashGenerator';
 
 type doneVerify = (error: any, user?: any, options?: IVerifyOptions) => void;
 
 const verify: VerifyFunction = async (username: string, password: string, done: doneVerify) => {
-  const user = await userStore.getUser({ username });
+  const user = await usersRepository.getUser({ username });
   if (!user || !checker.isValid(password, user.password)) {
     return done(new Error('Неверное имя или пароль'));
   }
@@ -28,7 +28,7 @@ export default () => {
   })
 
   passport.deserializeUser(async (id: string, cb: (err: Error, user?: User) => void) => {
-    const user = await userStore.getUser({ id });
+    const user = await usersRepository.getUser({ id });
     cb(null, user);
   })
 

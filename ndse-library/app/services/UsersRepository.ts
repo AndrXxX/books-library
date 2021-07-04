@@ -6,19 +6,19 @@ export type UserFilter = {
   username?: string;
 }
 
-const store = {
+export class UsersRepository {
   async getUser(filter: UserFilter) {
     if (filter.id) {
       return UserModel.findById(filter.id).select('-__v');
     }
    return UserModel.findOne(filter).select('-__v');
-  },
+  }
   async createUser(params: User) {
     const user = new UserModel(params);
     user.password = generator.generate(user.password);
     await user.save();
     return user;
-  },
-};
+  }
+}
 
-export default store;
+export const usersRepository = new UsersRepository();
