@@ -1,17 +1,19 @@
-import express, { Request } from 'express'
+import express, { Request, Response } from 'express'
+import { Book } from "../models/Book";
+import { User } from "../models/User";
 import fileMiddleware from '../middleware/file'
 import bookExistMiddleware from '../middleware/bookError404'
 import authMiddleware from '../middleware/auth'
 import countersFactory from '../Utils/CountersAccessor'
 import path from 'path'
-import store from '../services/Store'
+import { booksRepository } from '../services/BooksRepository'
 const counter = countersFactory.getAccessor(process.env.COUNTER_URL);
 const router = express.Router();
 
 router.get('/', async (req, res) => {
   res.render("books/index", {
     title: "Книги",
-    books: await store.findAll(),
+    books: await booksRepository.getBooks(),
   });
 });
 
@@ -21,12 +23,13 @@ router.post('/create',
     {name: 'fileBook', maxCount: 1},
     {name: 'fileCover', maxCount: 1}
   ]),
-  async (req: Request & { files: any }, res) => {
+  async (req: Request & Express.Request, res) => {
     const {title, description, authors, favorite} = req.body;
-    const params: { [propertyName: string]: string } = {title, description, authors, favorite};
-    req.files.fileBook && (params.fileName = req.files.fileBook[0].path);
-    req.files.fileCover && (params.fileCover = req.files.fileCover[0].path);
-    await store.createBook(params);
+    const params: Book = { title, description, authors, favorite };
+    const files = req.files as { [propertyName: string]: Express.Multer.File[] };
+    files.fileBook && (params.fileName = files.fileBook[0].path);
+    files.fileCover && (params.fileCover = files.fileCover[0].path);
+    await booksRepository.createBook(params);
     res.redirect('/books')
   }
 );
@@ -43,45 +46,46 @@ router.get('/create',
 
 router.get('/:id/update',
   authMiddleware,
-  bookExistMiddleware(store),
+  bookExistMiddleware(booksRepository),
   async (req, res) => {
     res.render("books/update", {
       title: "Книги | редактирование",
-      book: await store.findBook(req.params.id),
+      book: await booksRepository.getBook(req.params.id),
     });
   }
 );
 
 router.post('/:id/update',
   authMiddleware,
-  bookExistMiddleware(store),
+  bookExistMiddleware(booksRepository),
   fileMiddleware.fields([
     {name: 'fileBook', maxCount: 1},
     {name: 'fileCover', maxCount: 1}
   ]),
-  async (req: Request & { files: any }, res) => {
+  async (req: Request & Express.Request, res) => {
     const {title, description, authors, favorite} = req.body;
-    const params: { [propertyName: string]: string } = {title, description, authors, favorite};
-    req.files.fileBook && (params.fileName = req.files.fileBook[0].path);
-    req.files.fileCover && (params.fileCover = req.files.fileCover[0].path);
-    await store.updateBook(req.params.id, params);
+    const params: Book = { title, description, authors, favorite };
+    const files = req.files as { [propertyName: string]: Express.Multer.File[] };
+    files.fileBook && (params.fileName = files.fileBook[0].path);
+    files.fileCover && (params.fileCover = files.fileCover[0].path);
+    await booksRepository.updateBook(req.params.id, params as Book);
     res.redirect(`/books/${req.params.id}`);
 });
 
 router.post('/:id/delete',
   authMiddleware,
-  bookExistMiddleware(store),
+  bookExistMiddleware(booksRepository),
   async (req, res) => {
-    await store.deleteBook(req.params.id);
+    await booksRepository.deleteBook(req.params.id);
     res.redirect(`/books`);
   }
 );
 
 router.get('/:id/download-file',
   authMiddleware,
-  bookExistMiddleware(store),
+  bookExistMiddleware(booksRepository),
   async (req, res) => {
-    const book = await store.findBook(req.params.id);
+    const book = await booksRepository.getBook(req.params.id);
     if (!book.fileName) {
       return res.status(404).json("book file | not found");
     }
@@ -93,9 +97,9 @@ router.get('/:id/download-file',
 
 router.get('/:id/download-cover',
   authMiddleware,
-  bookExistMiddleware(store),
+  bookExistMiddleware(booksRepository),
   async (req, res) => {
-    const book = await store.findBook(req.params.id);
+    const book = await booksRepository.getBook(req.params.id);
     if (!book.fileCover) {
       return res.status(404).json("book file | not found");
     }
@@ -107,14 +111,14 @@ router.get('/:id/download-cover',
 
 router.get('/:id',
   authMiddleware,
-  bookExistMiddleware(store),
-  async (req: Request & { user: any }, res) => {
+  bookExistMiddleware(booksRepository),
+  async (req: Request & Express.Request, res: Response) => {
     await counter.incr(req.params.id);
     res.render("books/view", {
       title: "Книги | информация",
-      book: await store.findBook(req.params.id),
+      book: await booksRepository.getBook(req.params.id),
       count: await counter.get(req.params.id),
-      username: req.user.username,
+      username: (req.user as User).username,
     });
   }
 );
