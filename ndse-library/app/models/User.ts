@@ -22,4 +22,4 @@ const userSchema = new Schema({
   }
 });
 
-export default model<User & Document>("User", userSchema)
+export const UserModel = model<User & Document>("User", userSchema)
