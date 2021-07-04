@@ -1,6 +1,6 @@
 import { Document, Schema, model } from 'mongoose';
 
-type Comment = {
+interface Comment {
   text: string;
   type: string;
   refTypeId: string;

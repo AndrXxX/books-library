@@ -1,12 +1,12 @@
 import { Document, Schema, model } from 'mongoose';
 
-export type Book = {
+export interface Book {
   title: string;
-  description?: string;
-  authors?: string;
-  favorite?: string;
-  fileCover?: string;
-  fileName?: string;
+  description: string;
+  authors: string;
+  favorite: string;
+  fileCover: string;
+  fileName: string;
 }
 
 const bookSchema = new Schema({

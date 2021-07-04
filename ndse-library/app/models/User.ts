@@ -1,6 +1,6 @@
 import { Document, Schema, model } from 'mongoose';
 
-export type User = {
+export interface User {
   id: string;
   username: string;
   password: string;
