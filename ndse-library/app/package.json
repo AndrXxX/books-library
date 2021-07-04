@@ -38,8 +38,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "tsc; node index.js",
+    "dev": "tsc --watch; nodemon index.js",
     "build": "tsc --watch",
     "eslint": "eslint --cache --ext .jsx,.ts,.tsx src",
     "eslint:dump": "eslint --print-config ./.eslintrc.json"
