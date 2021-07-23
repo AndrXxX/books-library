@@ -1,15 +1,16 @@
-const multer = require('multer');
+import { Request } from "express";
+import multer from 'multer';
 const MAX_FILE_SIZE = 10*1024*1024;
 
 const storage = multer.diskStorage({
-  destination(req, file, cb) {
+  destination(req: Request, file, cb: (err: Error, destination: string) => void) {
     if (file.fieldname === "fileBook") {
       cb(null, 'public/books');
     } else {
       cb(null, 'public/images');
     }
   },
-  filename(req, file, cb) {
+  filename(req: Request, file, cb: (err: Error, destination: string) => void) {
     cb(null, `${new Date().toISOString().replace(/:/g, '-')}-${file.originalname}`)
   }
 });
@@ -25,7 +26,7 @@ const allowedTypes = [
   'image/png',
 ];
 
-const fileFilter = (req, file, cb) => {
+const fileFilter = (req: Request, file: Express.Multer.File, cb: (err: Error, passed: boolean) => void) => {
   if (!allowedTypes.includes(file.mimetype)) {
     return cb(null, false);
   }
@@ -35,6 +36,6 @@ const fileFilter = (req, file, cb) => {
   return cb(null, true);
 };
 
-module.exports = multer({
+export default multer({
   storage, fileFilter
 });

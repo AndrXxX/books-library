@@ -1,11 +1,11 @@
-const express = require('express');
-const passport = require('passport');
+import express, { NextFunction, Request, Response } from 'express'
+import passport from 'passport'
+import authMiddleware from '../middleware/auth'
+import signupMiddleware, { ResultRequest } from '../middleware/signup'
 const router = express.Router();
-const signupMiddleware = require('../middleware/signup');
-const authMiddleware = require('../middleware/auth');
 
 router.get('/login',
-function (req, res) {
+function (req: Request, res: Response) {
     res.render('user/login', {
       title: "Авторизация",
       user: {},
@@ -15,7 +15,7 @@ function (req, res) {
 );
 
 router.post('/login',
-  (req, res, next) => {
+  (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate('local', function (err, user) {
       if (err || !user) {
         return res.render('user/login', {
@@ -35,7 +35,7 @@ router.post('/login',
 );
 
 router.get('/signup',
-  function (req, res) {
+  function (req: Request, res: Response) {
     if (req.user) res.redirect('/');
     res.render('user/signup', {
       title: "Регистрация",
@@ -48,7 +48,7 @@ router.get('/signup',
 
 router.post('/signup',
   signupMiddleware,
-  function (req, res) {
+  (req: Request & ResultRequest, res: Response) => {
     res.render('user/signup', {
       title: "Регистрация",
       user: req.body.user || {},
@@ -60,7 +60,7 @@ router.post('/signup',
 );
 
 router.get('/logout',
-  function (req, res) {
+  function (req: Request, res: Response) {
     req.logout()
     res.redirect('/')
   },
@@ -68,8 +68,8 @@ router.get('/logout',
 
 router.get('/me',
   authMiddleware,
-  function (req, res) {
+  function (req: Request, res: Response) {
     res.render('user/profile', { title: "Профиль", user: req.user })
   })
 
-module.exports = router;
+export default router;

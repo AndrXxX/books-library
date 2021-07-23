@@ -1,14 +1,12 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
-const generator = {
-  isValid(password, hash) {
+export default {
+  isValid(password: string, hash: string): boolean {
     return bcrypt.compareSync(password, hash);
   },
-  generate(password) {
+  generate(password: string): string {
     if (!password) throw new Error("Пароль не может быть пустым");
     return bcrypt.hashSync(password, saltRounds);
   }
 };
-
-module.exports = generator;
