@@ -1,9 +1,9 @@
 import { injectable } from "inversify";
-import { CountersRepositoryInterface } from "../services/Interfaces/CountersRepositoryInterface";
+import { AbstractCountersRepository } from "./AbstractCountersRepository";
 
 @injectable()
 export class CountersService {
-  constructor(private readonly repo: CountersRepositoryInterface) {}
+  constructor(private readonly repo: AbstractCountersRepository) {}
 
   get(bookId: string): Promise<number> {
     return this.repo.get(bookId);
