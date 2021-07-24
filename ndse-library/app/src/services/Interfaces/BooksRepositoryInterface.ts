@@ -1,4 +1,4 @@
-import { Book } from "../../models/Book";
+import { Book } from "../../books/Book";
 
 export abstract class BooksRepositoryInterface {
   abstract getBooks(): Promise<Book[]>;
