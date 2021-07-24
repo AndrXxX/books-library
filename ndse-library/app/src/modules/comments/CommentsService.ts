@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
-import { Comment } from "./comment";
 import { AbstractCommentsRepository } from "./AbstractCommentsRepository";
+import { Comment } from "./comment";
 
 @injectable()
 export class CommentsService {

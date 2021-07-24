@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { Document, model } from "mongoose";
-import { Comment } from '../comments/comment';
-import { AbstractCommentsRepository } from "../comments/AbstractCommentsRepository";
+import { Comment } from '../modules/comments/comment';
+import { AbstractCommentsRepository } from "../modules/comments/AbstractCommentsRepository";
 import { commentSchema } from "./mongo.schemas/comment.schema";
 
 export type CommentsFilter = {
