@@ -8,14 +8,14 @@ import { AbstractBooksRepository } from "../books/AbstractBooksRepository";
 import { CommentsRepositoryInterface } from "../services/Interfaces/CommentsRepositoryInterface";
 import { CountersRepositoryInterface } from "../services/Interfaces/CountersRepositoryInterface";
 import { UsersRepositoryInterface } from "../services/Interfaces/UsersRepositoryInterface";
-import { BooksRepository } from "../services/mongo/BooksRepository";
+import { MongoBooksRepository } from "./MongoBooksRepository";
 import { CommentsRepository } from "../services/mongo/CommentsRepository";
 import { UsersRepository } from "../services/mongo/UsersRepository";
 import { UsersService } from "../services/UsersService";
 
 const container = new Container();
 
-container.bind(AbstractBooksRepository).to(BooksRepository);
+container.bind(AbstractBooksRepository).to(MongoBooksRepository);
 container.bind(CommentsRepositoryInterface).to(CommentsRepository);
 container.bind(UsersRepositoryInterface).to(UsersRepository);
 container.bind(CountersRepositoryInterface).to(CountersRepository);

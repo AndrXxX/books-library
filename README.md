@@ -14,7 +14,7 @@
 
 Ссылки на файлы для быстрого перехода:
 * [container](ndse-library/app/src/infrastructure/container.ts)
-* интерфейс [AbstractBooksRepository](ndse-library/app/src/books/AbstractBooksRepository.ts)
-* сервис [BooksService](ndse-library/app/src/books/BooksService.ts)
-* реализация на mongo [BooksRepository](ndse-library/app/src/services/mongo/BooksRepository.ts)
+* [AbstractBooksRepository](ndse-library/app/src/books/AbstractBooksRepository.ts)
+* [BooksService](ndse-library/app/src/books/BooksService.ts)
+* [MongoBooksRepository](ndse-library/app/src/infrastructure/MongoBooksRepository.ts)
 
