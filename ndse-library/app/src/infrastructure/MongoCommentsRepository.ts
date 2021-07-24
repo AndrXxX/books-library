@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
 import { Document, model } from "mongoose";
-import { Comment } from '../../comments/comment';
-import { CommentsRepositoryInterface } from "../../services/Interfaces/CommentsRepositoryInterface";
-import { commentSchema } from "../../services/mongo/schemas/commentSchema";
+import { Comment } from '../comments/comment';
+import { AbstractCommentsRepository } from "../comments/AbstractCommentsRepository";
+import { commentSchema } from "./mongo.schemas/comment.schema";
 
 export type CommentsFilter = {
   refTypeId?: string;
@@ -11,7 +11,7 @@ export type CommentsFilter = {
 const CommentModel = model<Comment & Document>('Comment', commentSchema);
 
 @injectable()
-export class CommentsRepository implements CommentsRepositoryInterface {
+export class MongoCommentsRepository implements AbstractCommentsRepository {
   async getComments(limit: number, params: CommentsFilter): Promise<Comment[]> {
     return CommentModel.find(params).sort({ 'date': -1, '_id': -1 }).limit(limit).select('-__v');
   }
