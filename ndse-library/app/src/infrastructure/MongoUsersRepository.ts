@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { Document, model } from "mongoose";
-import { PasswordService } from "../password/PasswordService";
+import { PasswordService } from "../modules/password/PasswordService";
 import { User } from '../users/user';
 import { AbstractUsersRepository } from "../users/AbstractUsersRepository";
 import { userSchema } from "./mongo.schemas/user.schema";

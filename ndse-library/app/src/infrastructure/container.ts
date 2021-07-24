@@ -1,7 +1,7 @@
 import { Container } from "inversify";
 import "reflect-metadata";
 import { BcryptPasswordService } from "./BcryptPasswordService";
-import { PasswordService } from "../password/PasswordService";
+import { PasswordService } from "../modules/password/PasswordService";
 import { BooksService } from "../modules/books/BooksService";
 import { CommentsService } from "../comments/CommentsService";
 import { CountersService } from "../counters/CountersService";
