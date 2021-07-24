@@ -7,7 +7,7 @@ import fileMiddleware from '../middleware/file'
 import { Book } from "../modules/books/book";
 import { User } from "../users/user";
 import { BooksService } from "../modules/books/BooksService";
-import { CountersService } from "../counters/CountersService";
+import { CountersService } from "../modules/counters/CountersService";
 
 const router = express.Router();
 

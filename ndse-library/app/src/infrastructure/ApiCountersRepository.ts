@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { AbstractCountersRepository } from "../counters/AbstractCountersRepository";
+import { AbstractCountersRepository } from "../modules/counters/AbstractCountersRepository";
 
 const axios = require('axios');
 const PROTOCOL = 'http';
