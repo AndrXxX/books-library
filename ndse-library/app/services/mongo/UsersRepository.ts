@@ -1,13 +1,15 @@
+import { UsersRepositoryInterface } from "../../services/Interfaces/UsersRepositoryInterface";
 import { UserModel, User } from '../../models/User';
 import generator from '../../services/HashGenerator';
 
 export type UserFilter = {
+  [propertyName: string]: any;
   id?: string;
   username?: string;
 }
 
-export class UsersRepository {
-  async getUser(filter: UserFilter) {
+export class UsersRepository implements UsersRepositoryInterface {
+  async getUser(filter: UserFilter): Promise<any> {
     if (filter.id) {
       return UserModel.findById(filter.id).select('-__v');
     }
