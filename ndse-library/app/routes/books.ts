@@ -6,9 +6,9 @@ import { User } from "../models/User";
 import fileMiddleware from '../middleware/file'
 import bookExistMiddleware from '../middleware/bookError404'
 import authMiddleware from '../middleware/auth'
-import countersFactory from '../Utils/CountersAccessor'
+import countersFactory from '../services/http/CountersRepository'
 import path from 'path'
-const counter = countersFactory.getAccessor(process.env.COUNTER_URL);
+const counter = countersFactory.getAccessor();
 const router = express.Router();
 
 router.get('/',

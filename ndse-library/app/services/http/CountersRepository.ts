@@ -1,7 +1,10 @@
+import { CounterRepositoryInterface } from "../../services/Interfaces/CounterRepositoryInterface";
+
 const axios = require('axios');
 const PROTOCOL = 'http';
 const getUrl = (serviceUrl: string, bookId: string): string => `${PROTOCOL}://${serviceUrl}/counter/${bookId}`;
 const incrUrl = (serviceUrl: string, bookId: string): string => `${getUrl(serviceUrl, bookId)}/incr`;
+const serviceUrl = process.env.COUNTER_URL;
 
 async function getResult(url: string, method: string): Promise<number> {
   try {
@@ -13,9 +16,9 @@ async function getResult(url: string, method: string): Promise<number> {
   }
 }
 
-class CountersAccessor {
-  url: string
-  constructor(serviceUrl: string) {
+class CountersRepository implements CounterRepositoryInterface {
+  url: string;
+  constructor() {
     this.url = serviceUrl;
   }
   async get(bookId: string): Promise<number> {
@@ -27,5 +30,5 @@ class CountersAccessor {
 }
 
 export default {
-  getAccessor: (serviceUrl: string) => new CountersAccessor(serviceUrl),
+  getAccessor: () => new CountersRepository(),
 };
