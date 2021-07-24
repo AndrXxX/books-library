@@ -1,6 +1,9 @@
+import { injectable } from "inversify";
+import { BooksRepositoryInterface } from "./book/BooksRepositoryInterface";
 import { BookModel, Book } from '../models/Book';
 
-export class BooksRepository {
+@injectable()
+export class BooksRepository implements BooksRepositoryInterface {
   async getBooks(): Promise<Book[]> {
     try {
       return await BookModel.find().select('-__v');

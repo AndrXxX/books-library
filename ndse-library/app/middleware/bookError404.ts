@@ -1,11 +1,11 @@
+import container from "../boot/Container";
 import { NextFunction, Request, Response } from "express";
-import { BooksRepository } from '../services/BooksRepository'
+import { BooksService } from "../services/book/BooksService";
 
-export default (store: BooksRepository) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    if (!await store.hasBook(req.params.id as string)) {
-      return res.status(404).redirect('/404');
-    }
-    return next();
+export default async (req: Request, res: Response, next: NextFunction) => {
+  const booksService = container.get(BooksService);
+  if (!await booksService.hasBook(req.params.id as string)) {
+    return res.status(404).redirect('/404');
   }
+  return next();
 };

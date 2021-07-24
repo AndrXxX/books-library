@@ -1,4 +1,6 @@
+import container from "../boot/Container";
 import express, { Request, Response } from 'express'
+import { BooksService } from "../services/book/BooksService";
 import { Book } from "../models/Book";
 import { User } from "../models/User";
 import fileMiddleware from '../middleware/file'
@@ -6,16 +8,16 @@ import bookExistMiddleware from '../middleware/bookError404'
 import authMiddleware from '../middleware/auth'
 import countersFactory from '../Utils/CountersAccessor'
 import path from 'path'
-import { booksRepository } from '../services/BooksRepository'
 const counter = countersFactory.getAccessor(process.env.COUNTER_URL);
 const router = express.Router();
 
 router.get('/',
   authMiddleware,
   async (req: Request, res: Response) => {
+    const booksService = container.get(BooksService);
     res.render("books/index", {
       title: "Книги",
-      books: await booksRepository.getBooks(),
+      books: await booksService.getBooks(),
     });
   },
 );
@@ -27,12 +29,13 @@ router.post('/create',
     {name: 'fileCover', maxCount: 1}
   ]),
   async (req: Request & Express.Request, res) => {
+    const booksService = container.get(BooksService);
     const {title, description, authors, favorite} = req.body;
     const params: Book = { title, description, authors, favorite };
     const files = req.files as { [propertyName: string]: Express.Multer.File[] };
     files.fileBook && (params.fileName = files.fileBook[0].path);
     files.fileCover && (params.fileCover = files.fileCover[0].path);
-    await booksRepository.createBook(params);
+    await booksService.createBook(params);
     res.redirect('/books')
   }
 );
@@ -49,46 +52,50 @@ router.get('/create',
 
 router.get('/:id/update',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   async (req, res) => {
+    const booksService = container.get(BooksService);
     res.render("books/update", {
       title: "Книги | редактирование",
-      book: await booksRepository.getBook(req.params.id),
+      book: await booksService.getBook(req.params.id),
     });
   }
 );
 
 router.post('/:id/update',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   fileMiddleware.fields([
     {name: 'fileBook', maxCount: 1},
     {name: 'fileCover', maxCount: 1}
   ]),
   async (req: Request & Express.Request, res) => {
+    const booksService = container.get(BooksService);
     const {title, description, authors, favorite} = req.body;
     const params: Book = { title, description, authors, favorite };
     const files = req.files as { [propertyName: string]: Express.Multer.File[] };
     files.fileBook && (params.fileName = files.fileBook[0].path);
     files.fileCover && (params.fileCover = files.fileCover[0].path);
-    await booksRepository.updateBook(req.params.id, params as Book);
+    await booksService.updateBook(req.params.id, params as Book);
     res.redirect(`/books/${req.params.id}`);
 });
 
 router.post('/:id/delete',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   async (req, res) => {
-    await booksRepository.deleteBook(req.params.id);
+    const booksService = container.get(BooksService);
+    await booksService.deleteBook(req.params.id);
     res.redirect(`/books`);
   }
 );
 
 router.get('/:id/download-file',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   async (req, res) => {
-    const book = await booksRepository.getBook(req.params.id);
+    const booksService = container.get(BooksService);
+    const book = await booksService.getBook(req.params.id);
     if (!book.fileName) {
       return res.status(404).json("book file | not found");
     }
@@ -100,9 +107,10 @@ router.get('/:id/download-file',
 
 router.get('/:id/download-cover',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   async (req, res) => {
-    const book = await booksRepository.getBook(req.params.id);
+    const booksService = container.get(BooksService);
+    const book = await booksService.getBook(req.params.id);
     if (!book.fileCover) {
       return res.status(404).json("book file | not found");
     }
@@ -114,12 +122,13 @@ router.get('/:id/download-cover',
 
 router.get('/:id',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   async (req: Request & Express.Request, res: Response) => {
+    const booksService = container.get(BooksService);
     await counter.incr(req.params.id);
     res.render("books/view", {
       title: "Книги | информация",
-      book: await booksRepository.getBook(req.params.id),
+      book: await booksService.getBook(req.params.id),
       count: await counter.get(req.params.id),
       username: (req.user as User).username,
     });
