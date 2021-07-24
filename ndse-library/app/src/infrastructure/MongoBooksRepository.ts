@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { Document, model } from "mongoose";
-import { Book } from '../books/book';
-import { AbstractBooksRepository } from "../books/AbstractBooksRepository";
+import { AbstractBooksRepository } from "../modules/books/AbstractBooksRepository";
+import { Book } from '../modules/books/book';
 import { bookSchema } from './mongo.schemas/book.schema';
 
 const BookModel = model<Book & Document>('Book', bookSchema);

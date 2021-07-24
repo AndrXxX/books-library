@@ -4,8 +4,8 @@ import container from "../../infrastructure/container";
 import bookExistMiddleware from '../../middleware/api/bookError404'
 import authMiddleware from '../../middleware/auth'
 import fileMiddleware from '../../middleware/file'
-import { Book } from "../../books/book";
-import { BooksService } from "../../books/BooksService";
+import { Book } from "../../modules/books/book";
+import { BooksService } from "../../modules/books/BooksService";
 
 const router = express.Router();
 

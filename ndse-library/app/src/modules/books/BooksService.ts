@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
-import { Book } from "./book";
 import { AbstractBooksRepository } from "./AbstractBooksRepository";
+import { Book } from "./book";
 
 @injectable()
 export class BooksService {

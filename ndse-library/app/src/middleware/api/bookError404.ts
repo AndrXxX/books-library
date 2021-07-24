@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import container from "../../infrastructure/container";
-import { BooksService } from "../../books/BooksService";
+import { BooksService } from "../../modules/books/BooksService";
 
 export default async (req: Request, res: Response, next: NextFunction) => {
   const booksService = container.get(BooksService);
