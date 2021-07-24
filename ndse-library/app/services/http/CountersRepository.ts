@@ -16,7 +16,7 @@ async function getResult(url: string, method: string): Promise<number> {
   }
 }
 
-class CountersRepository implements CountersRepositoryInterface {
+export class CountersRepository implements CountersRepositoryInterface {
   url: string;
   constructor() {
     this.url = serviceUrl;
@@ -28,7 +28,3 @@ class CountersRepository implements CountersRepositoryInterface {
     return await getResult(incrUrl(this.url, bookId), 'post');
   }
 }
-
-export default {
-  getAccessor: () => new CountersRepository(),
-};

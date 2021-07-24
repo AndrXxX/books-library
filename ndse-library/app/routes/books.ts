@@ -6,9 +6,8 @@ import { User } from "../models/User";
 import fileMiddleware from '../middleware/file'
 import bookExistMiddleware from '../middleware/bookError404'
 import authMiddleware from '../middleware/auth'
-import countersFactory from '../services/http/CountersRepository'
 import path from 'path'
-const counter = countersFactory.getAccessor();
+import { CountersService } from "../services/CountersService";
 const router = express.Router();
 
 router.get('/',
@@ -125,11 +124,12 @@ router.get('/:id',
   bookExistMiddleware,
   async (req: Request & Express.Request, res: Response) => {
     const booksService = container.get(BooksService);
-    await counter.incr(req.params.id);
+    const countersService = container.get(CountersService);
+    await countersService.incr(req.params.id);
     res.render("books/view", {
       title: "Книги | информация",
       book: await booksService.getBook(req.params.id),
-      count: await counter.get(req.params.id),
+      count: await countersService.get(req.params.id),
       username: (req.user as User).username,
     });
   }
