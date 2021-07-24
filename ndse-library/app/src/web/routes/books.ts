@@ -1,13 +1,13 @@
 import express, { Request, Response } from 'express'
 import path from 'path'
-import container from "../infrastructure/container";
+import container from "../../infrastructure/container";
 import authMiddleware from '../middleware/auth'
 import bookExistMiddleware from '../middleware/bookError404'
 import fileMiddleware from '../middleware/file'
-import { Book } from "../modules/books/book";
-import { User } from "../modules/users/user";
-import { BooksService } from "../modules/books/BooksService";
-import { CountersService } from "../modules/counters/CountersService";
+import { Book } from "../../modules/books/book";
+import { User } from "../../modules/users/user";
+import { BooksService } from "../../modules/books/BooksService";
+import { CountersService } from "../../modules/counters/CountersService";
 
 const router = express.Router();
 

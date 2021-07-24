@@ -14,7 +14,7 @@ import apiBooksRouter from './routes/api/books';
 import apiUserRouter from './routes/api/user';
 
 import booksRouter from './routes/books';
-import indexRouter from './routes/index';
+import indexRouter from './routes';
 import userRouter from './routes/user';
 
 const app = express();
