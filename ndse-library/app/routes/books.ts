@@ -1,4 +1,4 @@
-import container from "../boot/Container";
+import container from "../boot/container";
 import express, { Request, Response } from 'express'
 import { BooksService } from "../services/BooksService";
 import { Book } from "../models/Book";
