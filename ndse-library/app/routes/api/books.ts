@@ -1,11 +1,12 @@
-import container from "../../boot/container";
 import express, { Request, Response } from 'express'
-import { BooksService } from "../../services/BooksService";
-import { Book } from "../../models/Book";
-import fileMiddleware from '../../middleware/file'
+import path from 'path'
+import container from "../../boot/container";
 import bookExistMiddleware from '../../middleware/api/bookError404'
 import authMiddleware from '../../middleware/auth'
-import path from 'path'
+import fileMiddleware from '../../middleware/file'
+import { Book } from "../../models/Book";
+import { BooksService } from "../../services/BooksService";
+
 const router = express.Router();
 
 router.get('/',

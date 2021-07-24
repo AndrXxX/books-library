@@ -1,5 +1,5 @@
-import container from "../../boot/container";
 import { NextFunction, Request, Response } from "express";
+import container from "../../boot/container";
 import { BooksService } from "../../services/BooksService";
 
 export default async (req: Request, res: Response, next: NextFunction) => {

@@ -1,8 +1,8 @@
-import { User } from "../models/User";
 import passport from 'passport';
 import passportLocal, { IStrategyOptions, IVerifyOptions, VerifyFunction } from 'passport-local';
-import checker from '../services/HashGenerator';
 import container from "../boot/container";
+import { User } from "../models/User";
+import checker from '../services/HashGenerator';
 import { UsersService } from "../services/UsersService";
 
 type doneVerify = (error: any, user?: any, options?: IVerifyOptions) => void;

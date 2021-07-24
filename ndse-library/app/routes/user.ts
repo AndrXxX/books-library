@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import passport from 'passport'
 import authMiddleware from '../middleware/auth'
 import signupMiddleware, { ResultRequest } from '../middleware/signup'
+
 const router = express.Router();
 
 router.get('/login',

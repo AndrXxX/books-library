@@ -1,6 +1,6 @@
+import { Server, Socket } from "socket.io";
 import container from "../boot/container";
 import { CommentsService } from "../services/CommentsService";
-import { Server, Socket } from "socket.io";
 
 const onLoadBookDiscussion = async (socket: Socket, bookId: string) => {
   const commentsService = container.get(CommentsService);

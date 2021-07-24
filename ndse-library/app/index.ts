@@ -1,21 +1,21 @@
-import express from 'express';
-import passport from 'passport';
-import expressSession from 'express-session';
 import cors from 'cors';
+import express from 'express';
+import expressSession from 'express-session';
 import mongoose from 'mongoose';
+import passport from 'passport';
+import { Server } from "socket.io";
 import auth from './boot/auth';
 import bootSocket from './boot/socket';
-import { Server } from "socket.io";
-
-import booksRouter from './routes/books';
-import userRouter from './routes/user';
-import apiBooksRouter from './routes/api/books';
-import apiUserRouter from './routes/api/user';
-import indexRouter from './routes/index';
-
-import loggerMiddleware from './middleware/logger';
 import authMiddleware from './middleware/auth';
 import errorMiddleware from './middleware/error404';
+
+import loggerMiddleware from './middleware/logger';
+import apiBooksRouter from './routes/api/books';
+import apiUserRouter from './routes/api/user';
+
+import booksRouter from './routes/books';
+import indexRouter from './routes/index';
+import userRouter from './routes/user';
 
 const app = express();
 auth();

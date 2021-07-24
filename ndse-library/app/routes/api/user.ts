@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express'
 import passport from 'passport'
-import { User } from "../../models/User";
 import signupMiddleware, { ResultRequest } from '../../middleware/signup'
+import { User } from "../../models/User";
+
 const router = express.Router();
 
 router.post('/login',

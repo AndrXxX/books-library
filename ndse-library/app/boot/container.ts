@@ -1,15 +1,15 @@
-import "reflect-metadata";
-import { BooksRepository } from "../services/mongo/BooksRepository";
-import { BooksRepositoryInterface } from "../services/Interfaces/BooksRepositoryInterface";
-import { BooksService } from "../services/BooksService";
 import { Container } from "inversify";
+import "reflect-metadata";
+import { BooksService } from "../services/BooksService";
 import { CommentsService } from "../services/CommentsService";
-import { CommentsRepositoryInterface } from "../services/Interfaces/CommentsRepositoryInterface";
-import { CommentsRepository } from "../services/mongo/CommentsRepository";
-import { CountersRepositoryInterface } from "../services/Interfaces/CountersRepositoryInterface";
-import { CountersRepository } from "../services/http/CountersRepository";
 import { CountersService } from "../services/CountersService";
+import { CountersRepository } from "../services/http/CountersRepository";
+import { BooksRepositoryInterface } from "../services/Interfaces/BooksRepositoryInterface";
+import { CommentsRepositoryInterface } from "../services/Interfaces/CommentsRepositoryInterface";
+import { CountersRepositoryInterface } from "../services/Interfaces/CountersRepositoryInterface";
 import { UsersRepositoryInterface } from "../services/Interfaces/UsersRepositoryInterface";
+import { BooksRepository } from "../services/mongo/BooksRepository";
+import { CommentsRepository } from "../services/mongo/CommentsRepository";
 import { UsersRepository } from "../services/mongo/UsersRepository";
 import { UsersService } from "../services/UsersService";
 

@@ -1,5 +1,5 @@
-import { CountersRepositoryInterface } from "../../services/Interfaces/CountersRepositoryInterface";
 import { injectable } from "inversify";
+import { CountersRepositoryInterface } from "../../services/Interfaces/CountersRepositoryInterface";
 
 const axios = require('axios');
 const PROTOCOL = 'http';

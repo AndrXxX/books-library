@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
-import { CommentsRepositoryInterface } from "../../services/Interfaces/CommentsRepositoryInterface";
-import { Comment } from '../../models/Comment';
-import { commentSchema } from "../../services/mongo/schemas/commentSchema";
 import { Document, model } from "mongoose";
+import { Comment } from '../../models/Comment';
+import { CommentsRepositoryInterface } from "../../services/Interfaces/CommentsRepositoryInterface";
+import { commentSchema } from "../../services/mongo/schemas/commentSchema";
 
 export type CommentsFilter = {
   refTypeId?: string;

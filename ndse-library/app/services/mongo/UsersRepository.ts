@@ -1,9 +1,9 @@
-import generator from '../../services/HashGenerator';
+import { injectable } from "inversify";
 import { Document, model } from "mongoose";
 import { User } from '../../models/User';
+import generator from '../../services/HashGenerator';
 import { UsersRepositoryInterface } from "../../services/Interfaces/UsersRepositoryInterface";
 import { userSchema } from "../../services/mongo/schemas/userSchema";
-import { injectable } from "inversify";
 
 const UserModel = model<User & Document>("User", userSchema)
 
