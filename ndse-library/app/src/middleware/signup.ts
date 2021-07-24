@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import container from "../boot/container";
+import container from "../infrastructure/container";
 import { UsersService } from "../services/UsersService";
 
 export interface ResultRequest {

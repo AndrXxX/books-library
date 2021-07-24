@@ -13,7 +13,7 @@
 3) Приложение будет доступно по адресу `http://localhost:3000/`
 
 Ссылки на файлы для быстрого перехода:
-* [container](ndse-library/app/src/boot/container.ts)
+* [container](ndse-library/app/src/infrastructure/container.ts)
 * интерфейс [BooksRepositoryInterface](ndse-library/app/src/services/Interfaces/BooksRepositoryInterface.ts)
 * сервис [BooksService](ndse-library/app/src/services/BooksService.ts)
 * реализация на mongo [BooksRepository](ndse-library/app/src/services/mongo/BooksRepository.ts)

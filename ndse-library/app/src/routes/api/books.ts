@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import path from 'path'
-import container from "../../boot/container";
+import container from "../../infrastructure/container";
 import bookExistMiddleware from '../../middleware/api/bookError404'
 import authMiddleware from '../../middleware/auth'
 import fileMiddleware from '../../middleware/file'

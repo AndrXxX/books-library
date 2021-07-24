@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import container from "../boot/container";
+import container from "../infrastructure/container";
 import { CommentsService } from "../services/CommentsService";
 
 const onLoadBookDiscussion = async (socket: Socket, bookId: string) => {
