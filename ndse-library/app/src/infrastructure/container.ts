@@ -7,17 +7,17 @@ import { CountersRepository } from "../services/http/CountersRepository";
 import { AbstractBooksRepository } from "../books/AbstractBooksRepository";
 import { AbstractCommentsRepository } from "../comments/AbstractCommentsRepository";
 import { CountersRepositoryInterface } from "../services/Interfaces/CountersRepositoryInterface";
-import { UsersRepositoryInterface } from "../services/Interfaces/UsersRepositoryInterface";
+import { AbstractUsersRepository } from "../users/AbstractUsersRepository";
 import { MongoBooksRepository } from "./MongoBooksRepository";
 import { MongoCommentsRepository } from "./MongoCommentsRepository";
-import { UsersRepository } from "../services/mongo/UsersRepository";
-import { UsersService } from "../services/UsersService";
+import { MongoUsersRepository } from "./MongoUsersRepository";
+import { UsersService } from "../users/UsersService";
 
 const container = new Container();
 
 container.bind(AbstractBooksRepository).to(MongoBooksRepository);
 container.bind(AbstractCommentsRepository).to(MongoCommentsRepository);
-container.bind(UsersRepositoryInterface).to(UsersRepository);
+container.bind(AbstractUsersRepository).to(MongoUsersRepository);
 container.bind(CountersRepositoryInterface).to(CountersRepository);
 
 container.bind(BooksService).toSelf();

@@ -1,9 +1,9 @@
 import { injectable } from "inversify";
 import { Document, model } from "mongoose";
-import { User } from '../../users/user';
-import generator from '../../services/HashGenerator';
-import { UsersRepositoryInterface } from "../../services/Interfaces/UsersRepositoryInterface";
-import { userSchema } from "../../services/mongo/schemas/userSchema";
+import { User } from '../users/user';
+import generator from '../services/HashGenerator';
+import { AbstractUsersRepository } from "../users/AbstractUsersRepository";
+import { userSchema } from "./mongo.schemas/user.schema";
 
 const UserModel = model<User & Document>("User", userSchema)
 
@@ -14,7 +14,7 @@ export type UserFilter = {
 }
 
 @injectable()
-export class UsersRepository implements UsersRepositoryInterface {
+export class MongoUsersRepository implements AbstractUsersRepository {
   async getUser(filter: UserFilter): Promise<any> {
     if (filter.id) {
       return UserModel.findById(filter.id).select('-__v');

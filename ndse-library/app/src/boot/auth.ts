@@ -3,7 +3,7 @@ import passportLocal, { IStrategyOptions, IVerifyOptions, VerifyFunction } from 
 import container from "../infrastructure/container";
 import { User } from "../users/user";
 import checker from '../services/HashGenerator';
-import { UsersService } from "../services/UsersService";
+import { UsersService } from "../users/UsersService";
 
 type doneVerify = (error: any, user?: any, options?: IVerifyOptions) => void;
 
