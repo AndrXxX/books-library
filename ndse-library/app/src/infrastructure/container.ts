@@ -1,5 +1,7 @@
 import { Container } from "inversify";
 import "reflect-metadata";
+import { BcryptPasswordService } from "./BcryptPasswordService";
+import { PasswordService } from "../password/PasswordService";
 import { BooksService } from "../books/BooksService";
 import { CommentsService } from "../comments/CommentsService";
 import { CountersService } from "../counters/CountersService";
@@ -19,6 +21,7 @@ container.bind(AbstractBooksRepository).to(MongoBooksRepository);
 container.bind(AbstractCommentsRepository).to(MongoCommentsRepository);
 container.bind(AbstractUsersRepository).to(MongoUsersRepository);
 container.bind(AbstractCountersRepository).to(ApiCountersRepository);
+container.bind(PasswordService).to(BcryptPasswordService);
 
 container.bind(BooksService).toSelf();
 container.bind(CommentsService).toSelf();

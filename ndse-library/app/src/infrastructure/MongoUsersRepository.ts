@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { Document, model } from "mongoose";
+import { PasswordService } from "../password/PasswordService";
 import { User } from '../users/user';
-import generator from '../services/HashGenerator';
 import { AbstractUsersRepository } from "../users/AbstractUsersRepository";
 import { userSchema } from "./mongo.schemas/user.schema";
 
@@ -15,6 +15,7 @@ export type UserFilter = {
 
 @injectable()
 export class MongoUsersRepository implements AbstractUsersRepository {
+  constructor(private readonly generator: PasswordService) {}
   async getUser(filter: UserFilter): Promise<any> {
     if (filter.id) {
       return UserModel.findById(filter.id).select('-__v');
@@ -23,7 +24,7 @@ export class MongoUsersRepository implements AbstractUsersRepository {
   }
   async createUser(params: User) {
     const user = new UserModel(params);
-    user.password = generator.generate(user.password);
+    user.password = this.generator.generate(user.password);
     await user.save();
     return user;
   }
