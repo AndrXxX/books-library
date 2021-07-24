@@ -1,4 +1,4 @@
-import { User } from "models/User";
+import { User } from "../../models/User";
 
 export abstract class UsersRepositoryInterface {
   abstract getUser(filter: { [propertyName: string]: any }): Promise<User>;
