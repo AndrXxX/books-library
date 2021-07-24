@@ -1,10 +1,14 @@
 import { injectable } from "inversify";
 import { CommentsRepositoryInterface } from "../../services/Interfaces/CommentsRepositoryInterface";
-import { Comment, CommentModel } from '../../models/Comment';
+import { Comment } from '../../models/Comment';
+import { commentSchema } from "../../services/mongo/schemas/commentSchema";
+import { Document, model } from "mongoose";
 
 export type CommentsFilter = {
   refTypeId?: string;
 }
+
+const CommentModel = model<Comment & Document>('Comment', commentSchema);
 
 @injectable()
 export class CommentsRepository implements CommentsRepositoryInterface {
