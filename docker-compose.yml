@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   mongodb:
-    image: mongo
+    image: mongo:4
     restart: always
     ports:
       - 27017:27017
