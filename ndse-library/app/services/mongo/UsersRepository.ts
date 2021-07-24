@@ -1,6 +1,10 @@
-import { UsersRepositoryInterface } from "../../services/Interfaces/UsersRepositoryInterface";
-import { UserModel, User } from '../../models/User';
 import generator from '../../services/HashGenerator';
+import { Document, model } from "mongoose";
+import { User } from '../../models/User';
+import { UsersRepositoryInterface } from "../../services/Interfaces/UsersRepositoryInterface";
+import { userSchema } from "../../services/mongo/schemas/userSchema";
+
+const UserModel = model<User & Document>("User", userSchema)
 
 export type UserFilter = {
   [propertyName: string]: any;
