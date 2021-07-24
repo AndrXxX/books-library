@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { usersRepository } from '../services/UsersRepository';
+import { usersRepository } from '../services/mongo/UsersRepository';
 
 export interface ResultRequest {
   error?: string,

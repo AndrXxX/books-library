@@ -1,7 +1,7 @@
 import { User } from "../models/User";
 import passport from 'passport';
 import passportLocal, { IStrategyOptions, IVerifyOptions, VerifyFunction } from 'passport-local';
-import { usersRepository } from '../services/UsersRepository';
+import { usersRepository } from '../services/mongo/UsersRepository';
 import checker from '../services/HashGenerator';
 
 type doneVerify = (error: any, user?: any, options?: IVerifyOptions) => void;

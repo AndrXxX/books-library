@@ -1,5 +1,5 @@
-import { UserModel, User } from '../models/User';
-import generator from '../services/HashGenerator';
+import { UserModel, User } from '../../models/User';
+import generator from '../../services/HashGenerator';
 
 export type UserFilter = {
   id?: string;
