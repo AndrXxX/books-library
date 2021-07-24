@@ -12,7 +12,7 @@ const CommentModel = model<Comment & Document>('Comment', commentSchema);
 
 @injectable()
 export class CommentsRepository implements CommentsRepositoryInterface {
-  async getComments(limit: number, params: CommentsFilter) {
+  async getComments(limit: number, params: CommentsFilter): Promise<Comment[]> {
     return CommentModel.find(params).sort({ 'date': -1, '_id': -1 }).limit(limit).select('-__v');
   }
   async create(params: Comment): Promise<Comment> {
