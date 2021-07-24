@@ -14,5 +14,5 @@
 
 Ссылки на файлы для быстрого перехода:
 * [ndse-library/app/models/Book.ts](ndse-library/app/models/Book.ts)
-* [ndse-library/app/services/BooksRepository.ts](ndse-library/app/services/BooksRepository.ts)
+* [ndse-library/app/services/BooksRepository.ts](ndse-library/app/services/mongo/BooksRepository.ts)
 * [ndse-library/app/tsconfig.json](ndse-library/app/tsconfig.json)

@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
-import { BooksRepositoryInterface } from "./book/BooksRepositoryInterface";
-import { BookModel, Book } from '../models/Book';
+import { BooksRepositoryInterface } from "../../services/Interfaces/BooksRepositoryInterface";
+import { BookModel, Book } from '../../models/Book';
 
 @injectable()
 export class BooksRepository implements BooksRepositoryInterface {

@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import { Container } from "inversify";
-import { BooksRepository } from "../services/BooksRepository";
-import { BooksRepositoryInterface } from "../services/book/BooksRepositoryInterface";
-import { BooksService } from "../services/book/BooksService";
+import { BooksRepository } from "../services/mongo/BooksRepository";
+import { BooksRepositoryInterface } from "../services/Interfaces/BooksRepositoryInterface";
+import { BooksService } from "../services/BooksService";
 
 const container = new Container();
 

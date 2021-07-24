@@ -1,6 +1,6 @@
 import container from "../boot/Container";
 import express, { Request, Response } from 'express'
-import { BooksService } from "../services/book/BooksService";
+import { BooksService } from "../services/BooksService";
 import { Book } from "../models/Book";
 import { User } from "../models/User";
 import fileMiddleware from '../middleware/file'
