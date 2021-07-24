@@ -1,16 +1,17 @@
+import container from "../../boot/Container";
 import express, { Request, Response } from 'express'
+import { BooksService } from "../../services/book/BooksService";
 import { Book } from "../../models/Book";
 import fileMiddleware from '../../middleware/file'
 import bookExistMiddleware from '../../middleware/api/bookError404'
 import authMiddleware from '../../middleware/auth'
 import path from 'path'
-import { booksRepository } from '../../services/BooksRepository'
 const router = express.Router();
 
 router.get('/',
   authMiddleware,
   async (req, res) => {
-    res.json(await booksRepository.getBooks());
+    res.json(await container.get(BooksService).getBooks());
   }
 );
 
@@ -18,8 +19,9 @@ router.post('/',
   authMiddleware,
   fileMiddleware.single('book-file'),
   async (req: Request, res: Response) => {
+    const booksService = container.get(BooksService);
     const {title, description, authors, favorite, file} = req.body;
-    const newBook = await booksRepository.createBook({
+    const newBook = await booksService.createBook({
       title, description, authors, favorite,
       fileName: file ? file.path : "",
     });
@@ -29,19 +31,21 @@ router.post('/',
 
 router.get('/:id',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   async (req, res) => {
-    res.json(await booksRepository.getBook(req.params.id))
+    const booksService = container.get(BooksService);
+    res.json(await booksService.getBook(req.params.id))
   }
 );
 
 router.put('/:id',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   fileMiddleware.single('book-file'),
   async (req: Request & Express.Request, res) => {
+    const booksService = container.get(BooksService);
     const { title, description, authors, favorite } = req.body;
-    const book = await booksRepository.updateBook(req.params.id, {
+    const book = await booksService.updateBook(req.params.id, {
       title, description, authors, favorite,
       fileName: req.file ? req.file.path : "",
     });
@@ -51,22 +55,24 @@ router.put('/:id',
 
 router.delete('/:id',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   async (req, res) => {
-    await booksRepository.deleteBook(req.params.id);
+    const booksService = container.get(BooksService);
+    await booksService.deleteBook(req.params.id);
     return res.json("ok");
   }
 );
 
 router.post('/:id/upload-file',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   fileMiddleware.single('book-file'),
   async (req: Request & Express.Request, res) => {
     if (!req.file) {
       return res.status(400).json("file | not uploaded");
     }
-    const book = await booksRepository.updateBook(req.params.id, {
+    const booksService = container.get(BooksService);
+    const book = await booksService.updateBook(req.params.id, {
       fileName: req.file.path,
     } as Book);
     res.json(book);
@@ -75,9 +81,10 @@ router.post('/:id/upload-file',
 
 router.get('/:id/download-file',
   authMiddleware,
-  bookExistMiddleware(booksRepository),
+  bookExistMiddleware,
   async (req, res) => {
-    const book = await booksRepository.getBook(req.params.id);
+    const booksService = container.get(BooksService);
+    const book = await booksService.getBook(req.params.id);
     if (!book.fileName) {
       return res.status(404).json("book file | not found");
     }
