@@ -4,9 +4,9 @@ import container from "../infrastructure/container";
 import authMiddleware from '../middleware/auth'
 import bookExistMiddleware from '../middleware/bookError404'
 import fileMiddleware from '../middleware/file'
-import { Book } from "../books/Book";
+import { Book } from "../books/book";
 import { User } from "../models/User";
-import { BooksService } from "../services/BooksService";
+import { BooksService } from "../books/BooksService";
 import { CountersService } from "../services/CountersService";
 
 const router = express.Router();

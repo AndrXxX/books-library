@@ -1,6 +1,6 @@
-import { Book } from "../../books/Book";
+import { Book } from "./book";
 
-export abstract class BooksRepositoryInterface {
+export abstract class AbstractBooksRepository {
   abstract getBooks(): Promise<Book[]>;
   abstract hasBook(id: string): Promise<boolean>;
   abstract getBook(id: string): Promise<Book | null>;

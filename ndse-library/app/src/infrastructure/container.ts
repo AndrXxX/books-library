@@ -1,10 +1,10 @@
 import { Container } from "inversify";
 import "reflect-metadata";
-import { BooksService } from "../services/BooksService";
+import { BooksService } from "../books/BooksService";
 import { CommentsService } from "../services/CommentsService";
 import { CountersService } from "../services/CountersService";
 import { CountersRepository } from "../services/http/CountersRepository";
-import { BooksRepositoryInterface } from "../services/Interfaces/BooksRepositoryInterface";
+import { AbstractBooksRepository } from "../books/AbstractBooksRepository";
 import { CommentsRepositoryInterface } from "../services/Interfaces/CommentsRepositoryInterface";
 import { CountersRepositoryInterface } from "../services/Interfaces/CountersRepositoryInterface";
 import { UsersRepositoryInterface } from "../services/Interfaces/UsersRepositoryInterface";
@@ -15,7 +15,7 @@ import { UsersService } from "../services/UsersService";
 
 const container = new Container();
 
-container.bind(BooksRepositoryInterface).to(BooksRepository);
+container.bind(AbstractBooksRepository).to(BooksRepository);
 container.bind(CommentsRepositoryInterface).to(CommentsRepository);
 container.bind(UsersRepositoryInterface).to(UsersRepository);
 container.bind(CountersRepositoryInterface).to(CountersRepository);
