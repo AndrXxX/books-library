@@ -1,7 +1,6 @@
 import cors from 'cors';
 import express from 'express';
 import expressSession from 'express-session';
-import mongoose from 'mongoose';
 import passport from 'passport';
 import { Server } from "socket.io";
 import auth from './boot/auth';
@@ -16,6 +15,7 @@ import apiUserRouter from './routes/api/user';
 import booksRouter from './routes/books';
 import indexRouter from './routes';
 import userRouter from './routes/user';
+import "../infrastructure/mongo.connection";
 
 const app = express();
 auth();
@@ -48,13 +48,6 @@ app.use(authMiddleware);
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3000;
-const DB_URL = process.env.DB_URL || 'mongodb://localhost:27017/mydb';
-
-try {
-  mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
-} catch (e) {
-  console.log(e);
-}
 
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
