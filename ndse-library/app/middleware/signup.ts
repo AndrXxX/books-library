@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { usersRepository } from '../services/mongo/UsersRepository';
+import { UsersService } from "../services/UsersService";
+import container from "../boot/container";
 
 export interface ResultRequest {
   error?: string,
@@ -7,12 +8,13 @@ export interface ResultRequest {
 }
 
 export default async function (req: Request & ResultRequest, res: Response, next: NextFunction) {
-  let user = await usersRepository.getUser({ username: req.body.user.username });
+  const usersService = container.get(UsersService)
+  let user = await usersService.getUser({ username: req.body.user.username });
   if (user) {
     req.error = `Пользователь с логином ${user.username} уже зарегистрирован`;
     return next();
   }
-  user = await usersRepository.createUser(req.body.user);
+  user = await usersService.createUser(req.body.user);
   req.info = "Пользователь зарегистрирован";
   req.user = user;
   return next();
