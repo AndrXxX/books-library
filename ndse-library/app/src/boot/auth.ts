@@ -1,7 +1,7 @@
 import passport from 'passport';
 import passportLocal, { IStrategyOptions, IVerifyOptions, VerifyFunction } from 'passport-local';
 import container from "../infrastructure/container";
-import { User } from "../models/User";
+import { User } from "../users/user";
 import checker from '../services/HashGenerator';
 import { UsersService } from "../services/UsersService";
 

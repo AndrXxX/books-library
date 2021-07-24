@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import { Document, model } from "mongoose";
-import { User } from '../../models/User';
+import { User } from '../../users/user';
 import generator from '../../services/HashGenerator';
 import { UsersRepositoryInterface } from "../../services/Interfaces/UsersRepositoryInterface";
 import { userSchema } from "../../services/mongo/schemas/userSchema";
