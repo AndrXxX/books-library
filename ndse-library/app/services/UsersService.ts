@@ -1,14 +1,15 @@
 import { injectable } from "inversify";
 import { UsersRepositoryInterface } from "../services/Interfaces/UsersRepositoryInterface";
+import { User } from "models/User";
 
 @injectable()
 export class UsersService {
   constructor(private readonly repo: UsersRepositoryInterface) {}
 
-  getUser(filter: { [propertyName: string]: any }): Promise<any> {
+  getUser(filter: { [propertyName: string]: any }): Promise<User> {
     return this.repo.getUser(filter);
   }
-  createUser(params: any): Promise<any> {
+  createUser(params: User): Promise<User> {
     return this.repo.createUser(params);
   }
 }
