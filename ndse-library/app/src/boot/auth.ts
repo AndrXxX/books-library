@@ -2,8 +2,8 @@ import passport from 'passport';
 import passportLocal, { IStrategyOptions, IVerifyOptions, VerifyFunction } from 'passport-local';
 import { PasswordService } from "../modules/password/PasswordService";
 import container from "../infrastructure/container";
-import { User } from "../users/user";
-import { UsersService } from "../users/UsersService";
+import { User } from "../modules/users/user";
+import { UsersService } from "../modules/users/UsersService";
 
 type doneVerify = (error: any, user?: any, options?: IVerifyOptions) => void;
 

@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import passport from 'passport'
 import signupMiddleware, { ResultRequest } from '../../middleware/signup'
-import { User } from "../../users/user";
+import { User } from "../../modules/users/user";
 
 const router = express.Router();
 

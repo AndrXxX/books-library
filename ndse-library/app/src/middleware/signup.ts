@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import container from "../infrastructure/container";
-import { UsersService } from "../users/UsersService";
+import { UsersService } from "../modules/users/UsersService";
 
 export interface ResultRequest {
   error?: string,

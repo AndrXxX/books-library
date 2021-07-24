@@ -9,11 +9,11 @@ import { ApiCountersRepository } from "./ApiCountersRepository";
 import { AbstractBooksRepository } from "../modules/books/AbstractBooksRepository";
 import { AbstractCommentsRepository } from "../modules/comments/AbstractCommentsRepository";
 import { AbstractCountersRepository } from "../modules/counters/AbstractCountersRepository";
-import { AbstractUsersRepository } from "../users/AbstractUsersRepository";
+import { AbstractUsersRepository } from "../modules/users/AbstractUsersRepository";
 import { MongoBooksRepository } from "./MongoBooksRepository";
 import { MongoCommentsRepository } from "./MongoCommentsRepository";
 import { MongoUsersRepository } from "./MongoUsersRepository";
-import { UsersService } from "../users/UsersService";
+import { UsersService } from "../modules/users/UsersService";
 
 const container = new Container();
 

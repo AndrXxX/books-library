@@ -5,7 +5,7 @@ import authMiddleware from '../middleware/auth'
 import bookExistMiddleware from '../middleware/bookError404'
 import fileMiddleware from '../middleware/file'
 import { Book } from "../modules/books/book";
-import { User } from "../users/user";
+import { User } from "../modules/users/user";
 import { BooksService } from "../modules/books/BooksService";
 import { CountersService } from "../modules/counters/CountersService";
 

@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
 import { Document, model } from "mongoose";
 import { PasswordService } from "../modules/password/PasswordService";
-import { User } from '../users/user';
-import { AbstractUsersRepository } from "../users/AbstractUsersRepository";
+import { User } from '../modules/users/user';
+import { AbstractUsersRepository } from "../modules/users/AbstractUsersRepository";
 import { userSchema } from "./mongo.schemas/user.schema";
 
 const UserModel = model<User & Document>("User", userSchema)
