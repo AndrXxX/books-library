@@ -1,6 +1,10 @@
 import { injectable } from "inversify";
+import { Book } from '../../models/Book';
+import { bookSchema } from '../../services/mongo/schemas/bookSchema';
 import { BooksRepositoryInterface } from "../../services/Interfaces/BooksRepositoryInterface";
-import { BookModel, Book } from '../../models/Book';
+import { Document, model } from "mongoose";
+
+const BookModel = model<Book & Document>('Book', bookSchema);
 
 @injectable()
 export class BooksRepository implements BooksRepositoryInterface {
