@@ -4,9 +4,11 @@ WORKDIR /app
 
 COPY app/package*.json ./
 
-RUN npm install
+RUN npm install && npm install typescript -g
 
 COPY app .
+
+RUN tsc
 
 EXPOSE 3000
 
