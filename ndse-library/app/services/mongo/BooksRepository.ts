@@ -51,5 +51,3 @@ export class BooksRepository implements BooksRepositoryInterface {
     return bookModel;
   }
 }
-
-export const booksRepository = new BooksRepository();

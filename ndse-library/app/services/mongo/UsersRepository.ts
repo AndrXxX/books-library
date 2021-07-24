@@ -22,5 +22,3 @@ export class UsersRepository implements UsersRepositoryInterface {
     return user;
   }
 }
-
-export const usersRepository = new UsersRepository();

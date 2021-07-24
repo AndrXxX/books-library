@@ -17,5 +17,3 @@ export class CommentsRepository implements CommentsRepositoryInterface {
     return comment;
   }
 }
-
-export const commentsRepository = new CommentsRepository();
