@@ -1,4 +1,4 @@
-import { Comment, CommentModel } from '../models/Comment';
+import { Comment, CommentModel } from '../../models/Comment';
 
 export type CommentsFilter = {
   refTypeId?: string;

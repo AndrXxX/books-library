@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { commentsRepository } from '../services/CommentsRepository';
+import { commentsRepository } from '../services/mongo/CommentsRepository';
 
 const onLoadBookDiscussion = async (socket: Socket, bookId: string) => {
   const comments = await commentsRepository.getComments(5, { refTypeId: bookId});
