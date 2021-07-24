@@ -1,8 +1,10 @@
+import container from "../boot/container";
+import { CommentsService } from "../services/CommentsService";
 import { Server, Socket } from "socket.io";
-import { commentsRepository } from '../services/mongo/CommentsRepository';
 
 const onLoadBookDiscussion = async (socket: Socket, bookId: string) => {
-  const comments = await commentsRepository.getComments(5, { refTypeId: bookId});
+  const commentsService = container.get(CommentsService);
+  const comments = await commentsService.getComments(5, { refTypeId: bookId});
   comments && socket.emit('load-book-discussion', comments);
 }
 
@@ -13,7 +15,8 @@ const onBookDiscussion = async (socket: Socket) => {
   console.log(`Socket bookId: ${bookId}`);
   socket.join(bookId);
   socket.on('book-discussion', async (msg) => {
-    const comment = await commentsRepository.create(msg);
+    const commentsService = container.get(CommentsService);
+    const comment = await commentsService.create(msg);
     if (comment) {
       socket.to(bookId).emit('book-discussion', comment);
       socket.emit('book-discussion', comment);
