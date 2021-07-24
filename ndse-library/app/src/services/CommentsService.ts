@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { Comment } from "../models/Comment";
+import { Comment } from "../comments/comment";
 import { CommentsRepositoryInterface } from "../services/Interfaces/CommentsRepositoryInterface";
 
 @injectable()

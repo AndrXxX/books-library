@@ -1,4 +1,4 @@
-import { Comment } from "../../models/Comment";
+import { Comment } from "../../comments/comment";
 
 export abstract class CommentsRepositoryInterface {
   abstract getComments(limit: number, params: { [propertyName: string]: any }): Promise<Comment[]>;
