@@ -1,4 +1,5 @@
 import { CountersRepositoryInterface } from "../../services/Interfaces/CountersRepositoryInterface";
+import { injectable } from "inversify";
 
 const axios = require('axios');
 const PROTOCOL = 'http';
@@ -16,6 +17,7 @@ async function getResult(url: string, method: string): Promise<number> {
   }
 }
 
+@injectable()
 export class CountersRepository implements CountersRepositoryInterface {
   url: string;
   constructor() {

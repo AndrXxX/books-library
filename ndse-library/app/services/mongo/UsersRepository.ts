@@ -3,6 +3,7 @@ import { Document, model } from "mongoose";
 import { User } from '../../models/User';
 import { UsersRepositoryInterface } from "../../services/Interfaces/UsersRepositoryInterface";
 import { userSchema } from "../../services/mongo/schemas/userSchema";
+import { injectable } from "inversify";
 
 const UserModel = model<User & Document>("User", userSchema)
 
@@ -12,6 +13,7 @@ export type UserFilter = {
   username?: string;
 }
 
+@injectable()
 export class UsersRepository implements UsersRepositoryInterface {
   async getUser(filter: UserFilter): Promise<any> {
     if (filter.id) {
