@@ -1,4 +1,4 @@
-import { CounterRepositoryInterface } from "../../services/Interfaces/CounterRepositoryInterface";
+import { CountersRepositoryInterface } from "../../services/Interfaces/CountersRepositoryInterface";
 
 const axios = require('axios');
 const PROTOCOL = 'http';
@@ -16,7 +16,7 @@ async function getResult(url: string, method: string): Promise<number> {
   }
 }
 
-class CountersRepository implements CounterRepositoryInterface {
+class CountersRepository implements CountersRepositoryInterface {
   url: string;
   constructor() {
     this.url = serviceUrl;
